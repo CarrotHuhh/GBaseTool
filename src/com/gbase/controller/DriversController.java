@@ -10,4 +10,8 @@ public class DriversController {
     String url = null;
     String user = null;
     String password = null;
+
+    public void loadDriver(){
+        
+    }
 }
