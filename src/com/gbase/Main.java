@@ -1,11 +1,11 @@
 package com.gbase;
-import com.gbase.ConnectionTest;
+import com.gbase.controller.ConnectionController;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        ConnectionTest connectionTest = null;
+        ConnectionController connectionTest = null;
         try {
-            connectionTest = new ConnectionTest();
+            connectionTest = new ConnectionController();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -1,7 +1,6 @@
-package com.gbase;
+package com.gbase.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
@@ -9,23 +8,21 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class ConnectionTest {
+public class ConnectionController {
     Properties properties = new Properties();
     String Driver = "com.gbase.jdbc.Driver";
     Connection conn = null;
     String url = null;
     String user = null;
     String password = null;
-    String keyStorePwd = null;
 
-    public ConnectionTest() throws Exception {
+    public ConnectionController() throws Exception {
         File file = new File("./resource/connection.properties");
         InputStream inputStream = Files.newInputStream(file.toPath());
         this.properties.load(inputStream);
         this.url = properties.getProperty("url");
         this.user = properties.getProperty("user");
         this.password = properties.getProperty("password");
-        this.keyStorePwd = properties.getProperty("keyStorePwd");
         this.conn = DriverManager.getConnection(url, user, password);
     }
 
