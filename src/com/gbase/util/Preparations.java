@@ -18,7 +18,8 @@ public class Preparations {
     private String password = null;
     private String sql = null;
 
-    public Preparations(){
+    public Preparations(){}
+    public void init(){
         File file = new File("./resource/connection.properties");
         try {
             InputStream inputStream = Files.newInputStream(file.toPath());

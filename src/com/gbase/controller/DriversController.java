@@ -1,17 +1,13 @@
 package com.gbase.controller;
 
+import com.gbase.service.DriversService;
+
 import java.sql.Connection;
 import java.util.Properties;
 
 public class DriversController {
-    Properties properties = new Properties();
-    String Driver = null;
-    Connection conn = null;
-    String url = null;
-    String user = null;
-    String password = null;
-
-    public void loadDriver(){
-        
+    private DriversService driversService;
+    public void loadDrivers(){
+        driversService.loadDrivers();
     }
 }

@@ -10,9 +10,10 @@ import java.sql.Statement;
 public class CharacterSetDao {
     public ResultSet getCharacterSetInCluster() throws SQLException {
         Preparations preparations = new Preparations();
+        preparations.init();
         try {
             Class.forName(preparations.getDriver());
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             System.out.println("注册驱动失败");
             e.printStackTrace();
         }
@@ -21,5 +22,13 @@ public class CharacterSetDao {
         ResultSet rs = stmt.executeQuery("show variables like '%character_set'");
         conn.close();
         return rs;
+    }
+
+    public int loadFileIn(String filename) {
+        return 0;
+    }
+
+    public ResultSet checkLoadedFile(String filename) {
+        return null;
     }
 }

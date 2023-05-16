@@ -1,4 +1,12 @@
 package com.gbase.service.impl;
 
-public class SqlServiceImpl {
+import com.gbase.dao.SqlDao;
+import com.gbase.service.SqlService;
+
+public class SqlServiceImpl implements SqlService {
+    @Override
+    public void sqlTest() {
+        SqlDao sqlDao = new SqlDao();
+        sqlDao.sqlTest();
+    }
 }

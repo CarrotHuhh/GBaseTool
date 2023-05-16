@@ -4,23 +4,23 @@ import com.gbase.service.CharacterSetService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class CharacterSetController {
     private CharacterSetService characterSetService;
 
     public void getCharacterSetInCluster() throws SQLException {
-        Map<String, String> map = characterSetService.getCharacterSetInCluster();
-        for (Map.Entry<String, String> meta : map.entrySet()) {
-            System.out.println(meta.getKey() + ":" + meta.getValue());
+        ResultSet resultSet = characterSetService.getCharacterSetInCluster();
+        System.out.println("集群中字符集配置为：");
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString(1) + ": " + resultSet.getString(2));
         }
     }
 
-    public int loadFileIn(){
+    public int loadFileIn() {
         return characterSetService.loadFileIn();
     }
 
-    public ResultSet checkLoadedFile(){
+    public ResultSet checkLoadedFile() {
         return characterSetService.checkLoadedFile();
     }
 }

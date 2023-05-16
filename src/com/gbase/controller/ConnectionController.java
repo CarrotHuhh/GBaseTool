@@ -1,5 +1,7 @@
 package com.gbase.controller;
 
+import com.gbase.service.ConnectionService;
+
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -9,13 +11,8 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 public class ConnectionController {
-    Properties properties = new Properties();
-    String driver = null;
-    Connection conn = null;
-    String url = null;
-    String user = null;
-    String password = null;
-
+    private ConnectionService connectionService;
     public void checkConnection(){
+        ResultSet resultSet = connectionService.checkConnection();
     }
 }

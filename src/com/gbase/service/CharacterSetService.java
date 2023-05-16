@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CharacterSetService {
-    public Map<String,String> getCharacterSetInCluster() throws SQLException;
+    public ResultSet getCharacterSetInCluster() throws SQLException;
 
     public int loadFileIn();
 
