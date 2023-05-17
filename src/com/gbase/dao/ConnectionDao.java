@@ -5,8 +5,8 @@ import com.gbase.util.Preparations;
 import java.sql.ResultSet;
 
 public class ConnectionDao {
+    private Preparations preparations = new Preparations();
     public ResultSet checkConnection(){
-        Preparations preparations = new Preparations();
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

@@ -3,8 +3,8 @@ package com.gbase.dao;
 import com.gbase.util.Preparations;
 
 public class DriversDao {
+    private Preparations preparations = new Preparations();
     public void loadDrivers(){
-        Preparations preparations = new Preparations();
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

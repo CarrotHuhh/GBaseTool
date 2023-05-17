@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CharacterSetDao {
+    private Preparations preparations = new Preparations();
     public ResultSet getCharacterSetInCluster() throws SQLException {
-        Preparations preparations = new Preparations();
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

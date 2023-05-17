@@ -3,8 +3,8 @@ package com.gbase.dao;
 import com.gbase.util.Preparations;
 
 public class SqlDao {
+    private Preparations preparations = new Preparations();
     public void sqlTest(){
-        Preparations preparations = new Preparations();
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

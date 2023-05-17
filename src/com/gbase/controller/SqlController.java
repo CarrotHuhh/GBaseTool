@@ -1,7 +1,10 @@
 package com.gbase.controller;
 
-public class SqlController {
-    public void testSql(){
+import com.gbase.service.SqlService;
 
+public class SqlController {
+    private SqlService sqlService;
+    public void testSql(){
+        sqlService.sqlTest();
     }
 }
