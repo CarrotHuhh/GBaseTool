@@ -41,39 +41,29 @@
 
 <center><img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E5%BE%AE%E4%BF%A1%E6%89%AB%E6%8F%8F%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%94%AF%E4%BB%98%E6%97%B6%E5%BA%8F%E5%9B%BE.png" style="zoom:60%"/></center>
 <center>图 3-2</center>
+
 ### 3.1.3 切换驱动测试时序图
 <center><img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/3751684133438_.pic-20230515145305560.jpg" style="zoom:50%"/></center>
 <center>图 3-3</center>
+
 ### 3.1.4 自定义SQL语句测试时序图
 <center><img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/3771684134647_.pic.jpg" style="zoom:70%"/></center>
 <center>图 3-4</center>
+
 # 4. 项目结构
-```bash
+
+```
 .
 ├── GbaseToolDemo.iml
-├── META-INF
-│   └── MANIFEST.MF
 ├── README.md
 ├── dist
 ├── lib
 │   ├── gbase-connector-java-9.5.0.1-build1-bin.jar
 │   └── mysql-connector-java-8.0.28.jar
 ├── out
-│   ├── artifacts
-│   │   └── GbaseToolDemo_jar
-│   └── production
-│       └── GbaseToolDemo
-│           ├── META-INF
-│           │   └── MANIFEST.MF
-│           └── com
-│               └── gbase
-│                   ├── ConnectionTest.class
-│                   └── Main.class
 ├── resource
 │   └── connection.properties
 └── src
-    ├── META-INF
-    │   └── MANIFEST.MF
     └── com
         └── gbase
             ├── Main.java
