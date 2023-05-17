@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 
 public class ConnectionDao {
     private Preparations preparations = new Preparations();
-    public ResultSet checkConnection(){
+
+    public ResultSet checkConnection() {
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

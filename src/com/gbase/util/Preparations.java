@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class Preparations {
@@ -18,14 +17,16 @@ public class Preparations {
     private String password = null;
     private String sql = null;
 
-    public Preparations(){}
-    public void init(){
+    public Preparations() {
+    }
+
+    public void init() {
         File file = new File("./resource/connection.properties");
         try {
             InputStream inputStream = Files.newInputStream(file.toPath());
             this.properties.load(inputStream);
             inputStream.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("读取配置文件失败");
             e.printStackTrace();
         }
@@ -36,10 +37,10 @@ public class Preparations {
         this.sql = this.properties.getProperty("sql");
     }
 
-    public Connection establishConnection(){
+    public Connection establishConnection() {
         try {
             return DriverManager.getConnection(this.url);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("创建连接失败");
             e.printStackTrace();
             return null;

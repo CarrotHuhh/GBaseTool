@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 public class CharacterSetDao {
     private Preparations preparations = new Preparations();
+
     public ResultSet getCharacterSetInCluster() throws SQLException {
         preparations.init();
         try {

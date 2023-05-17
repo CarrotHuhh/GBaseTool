@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 
 public class ConnectionServiceImpl implements ConnectionService {
     private ConnectionDao connectionDao;
-    public ResultSet checkConnection(){
+
+    public ResultSet checkConnection() {
         return connectionDao.checkConnection();
     }
 }

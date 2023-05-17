@@ -4,7 +4,8 @@ import com.gbase.util.Preparations;
 
 public class SqlDao {
     private Preparations preparations = new Preparations();
-    public void sqlTest(){
+
+    public void sqlTest() {
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

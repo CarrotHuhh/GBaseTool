@@ -4,7 +4,8 @@ import com.gbase.util.Preparations;
 
 public class DriversDao {
     private Preparations preparations = new Preparations();
-    public void loadDrivers(){
+
+    public void loadDrivers() {
         preparations.init();
         try {
             Class.forName(preparations.getDriver());

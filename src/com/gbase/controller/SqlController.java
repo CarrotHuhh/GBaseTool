@@ -4,7 +4,8 @@ import com.gbase.service.SqlService;
 
 public class SqlController {
     private SqlService sqlService;
-    public void testSql(){
+
+    public void testSql() {
         sqlService.sqlTest();
     }
 }
