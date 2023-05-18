@@ -3,6 +3,7 @@ package com.gbase.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +13,6 @@ import java.util.Properties;
 public class ConnectionUtils {
     private Properties properties = new Properties();
     private String driver = null;
-    private Connection conn = null;
     private String url = null;
     private String user = null;
     private String password = null;
@@ -20,8 +20,9 @@ public class ConnectionUtils {
 
     public void init() {
         File file = new File("./resource/connection.properties");
-        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
-            this.properties.load(inputStream);
+        try (InputStream inputStream = Files.newInputStream(file.toPath());
+             InputStreamReader reader = new InputStreamReader(inputStream,"UTF-8"); ) {
+            this.properties.load(reader);
             System.out.println("配置文件读取完毕");
             this.url = this.properties.getProperty("url");
             this.user = this.properties.getProperty("user");
@@ -36,10 +37,17 @@ public class ConnectionUtils {
 
     public Connection establishConnection(){
         try {
+            System.out.println("注册驱动成功");
+            Class.forName(this.driver);
+        } catch (ClassNotFoundException e) {
+            System.out.println("注册驱动失败");
+            e.printStackTrace();
+        }
+        try {
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
             System.out.println("创建连接成功");
             return connection;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("创建连接失败");
             e.printStackTrace();
             return null;
