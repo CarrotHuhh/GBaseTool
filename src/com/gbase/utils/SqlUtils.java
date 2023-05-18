@@ -1,9 +1,6 @@
 package com.gbase.utils;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SqlUtils {
     public static ResultSet query(String sql, Connection connection) {
@@ -38,10 +35,22 @@ public class SqlUtils {
         }
         return false;
     }
-
-    public static void printResultSet(ResultSet resultSet) throws SQLException {
+    public static void insertChosenCode(Connection connection,String code) {
+        String tmp_sql = "insert into testtable value(?,?,?,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql)){
+            preparedStatement.setBytes(1,"李四".getBytes(code));
+            preparedStatement.setBytes(2,"张三".getBytes(code));
+            preparedStatement.setBytes(3,"王五".getBytes(code));
+            preparedStatement.execute();
+            System.out.println("插入指定编码字段成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("插入指定编码字段失败");
+        }
+    }
+    public static void printResultSet(ResultSet resultSet,int numOfClolumn) throws SQLException {
         while(resultSet.next()){
-            System.out.println(resultSet.getString(1));
+            System.out.println(resultSet.getString(numOfClolumn));
         }
     }
 }

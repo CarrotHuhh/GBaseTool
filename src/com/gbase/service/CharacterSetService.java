@@ -20,9 +20,8 @@ public class CharacterSetService {
         }
     }
 
-    public int loadFileIn() {
+    public void loadFileIn() {
         String filename = null;
-        return characterSetDao.loadFileIn(filename);
     }
 
     public ResultSet checkLoadedFile() {

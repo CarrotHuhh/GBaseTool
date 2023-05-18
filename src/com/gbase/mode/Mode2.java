@@ -25,7 +25,7 @@ public class Mode2 {
                 switch (sub) {
                     case "show":
                     case "select":
-                        SqlUtils.printResultSet(SqlUtils.query(sql, connection));
+                        SqlUtils.printResultSet(SqlUtils.query(sql, connection),1);
                         break;
                     case "insert":
                         SqlUtils.insert(sql, connection);

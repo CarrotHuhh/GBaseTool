@@ -14,10 +14,11 @@ public class Mode4 {
         try(Connection connection = connectionUtils.establishConnection()){
             if(connection!=null){
                 System.out.println("所执行SQL语句为："+connectionUtils.getSql());
-                System.out.println(SqlUtils.insert(connectionUtils.getSql(),connection));
+                SqlUtils.insert(connectionUtils.getSql(),connection);
 //                SqlUtils.update(connectionUtils.getSql(),connection);
-//                SqlUtils.printResultSet(SqlUtils.query(connectionUtils.getSql(),connection));
+//                SqlUtils.printResultSet(SqlUtils.query(connectionUtils.getSql(),connection),1);
                 CharacterSetService.getCharacterSetInCluster(connectionUtils,connection);
+                SqlUtils.insertChosenCode(connection,"UTF-16");
             }
         }catch (Exception e){
             System.out.println("连接出现异常，Mode1测试完毕，请检查登录配置");
