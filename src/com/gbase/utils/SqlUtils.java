@@ -29,11 +29,14 @@ public class SqlUtils {
     public static boolean insert(String sql, Connection connection) {
         try {
             Statement statement = connection.createStatement();
+            System.out.println("插入成功");
             return statement.execute(sql);
+//            return true;
         } catch (Exception e) {
             System.out.println("插入失败");
-            return false;
+
         }
+        return false;
     }
 
     public static void printResultSet(ResultSet resultSet) throws SQLException {

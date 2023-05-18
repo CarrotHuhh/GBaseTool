@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtils {
@@ -50,8 +49,9 @@ public class ConnectionUtils {
         return sql;
     }
 
-    public void setSql(String sql) {
+    public String setSql(String sql) {
         this.sql = sql;
+        return sql;
     }
 
     public String getUrl() {
