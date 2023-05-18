@@ -24,7 +24,7 @@ public class ConnectionUtils {
              InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");) {
             this.properties.load(reader);
             System.out.println("配置文件读取完毕");
-            if(this.driver==null){
+            if (this.driver == null) {
                 this.driver = this.properties.getProperty("driver");
             }
             this.sql = this.properties.getProperty("sql");

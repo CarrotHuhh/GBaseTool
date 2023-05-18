@@ -1,7 +1,5 @@
 package com.gbase.dao;
 
-import com.gbase.utils.ConnectionUtils;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

@@ -1,8 +1,7 @@
 package com.gbase;
 
 
-
-import com.gbase.mode.*;
+import com.gbase.mode.Mode5;
 
 public class Main {
     public static void main(String[] args) {

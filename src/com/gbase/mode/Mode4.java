@@ -29,7 +29,7 @@ public class Mode4 {
                         String sql = scanner.nextLine();
                         System.out.println("所执行SQL语句为：" + sql);
                         //功能未完成
-                        SqlUtils.printResultSet(SqlUtils.query(sql, connection),1);
+                        SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
                         System.out.println();
                         break;
                     case "back":
