@@ -5,24 +5,49 @@ import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
 import java.sql.Connection;
+import java.util.Scanner;
 
 public class Mode4 {
     private ConnectionUtils connectionUtils;
-    public Mode4(){
+
+    public Mode4() {
         connectionUtils = new ConnectionUtils();
         connectionUtils.init();
-        try(Connection connection = connectionUtils.establishConnection()){
-            if(connection!=null){
-                System.out.println("所执行SQL语句为："+connectionUtils.getSql());
-                SqlUtils.insert(connectionUtils.getSql(),connection);
-//                SqlUtils.update(connectionUtils.getSql(),connection);
-//                SqlUtils.printResultSet(SqlUtils.query(connectionUtils.getSql(),connection),1);
-                CharacterSetService.getCharacterSetInCluster(connectionUtils,connection);
-                SqlUtils.insertChosenCode(connection,"UTF-16");
+        Scanner scanner = new Scanner(System.in);
+        try {
+            Connection connection = connectionUtils.establishConnection();
+            label:
+            while (connection != null) {
+                CharacterSetService.getCharacterSetInCluster(connection);
+                SqlUtils.insertChosenCode(connection, "GBK");
+                //功能未完成
+                System.out.println("进行sql测试请输入sqltest，输入quit退出程序：");
+                String sqlInput = scanner.nextLine();
+                switch (sqlInput) {
+                    case "sqltest":
+                        System.out.println("请输入要执行的SQl语句");
+                        String sql = scanner.nextLine();
+                        System.out.println("所执行SQL语句为：" + sql);
+                        //功能未完成
+                        SqlUtils.printResultSet(SqlUtils.query(sql, connection),1);
+                        System.out.println();
+                        break;
+                    case "back":
+                        break label;
+                    case "quit":
+                        connection.close();
+                        connection = null;
+                        break;
+                    default:
+                        System.out.println("指令输入错误，请重新输入，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
+                        break;
+                }
             }
-        }catch (Exception e){
-            System.out.println("连接出现异常，Mode1测试完毕，请检查登录配置");
+        } catch (Exception e) {
+            System.out.println("连接出现异常，Mode4测试结束，请检查登录配置");
             e.printStackTrace();
+            scanner.close();
         }
     }
+
 }

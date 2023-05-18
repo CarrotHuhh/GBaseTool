@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class CharacterSetDao {
 
-    public static HashMap<String, String> getCharacterSetInCluster(ConnectionUtils connectionUtils, Connection connection) {
+    public static HashMap<String, String> getCharacterSetInCluster(Connection connection) {
         try (Statement stmt = connection.createStatement()) {
             HashMap<String, String> map = new HashMap<>();
             ResultSet resultSet = stmt.executeQuery("show variables like '%character_set%'");

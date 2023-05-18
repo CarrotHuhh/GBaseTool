@@ -2,10 +2,10 @@ package com.gbase;
 
 
 
-import com.gbase.mode.Mode2;
+import com.gbase.mode.*;
 
 public class Main {
     public static void main(String[] args) {
-        Mode2 mode2 = new Mode2();
+        Mode5 mode5 = new Mode5();
     }
 }

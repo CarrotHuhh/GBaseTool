@@ -12,8 +12,8 @@ import java.util.Map;
 public class CharacterSetService {
     private CharacterSetDao characterSetDao = new CharacterSetDao();
 
-    public static void getCharacterSetInCluster(ConnectionUtils connectionUtils, Connection connection){
-        HashMap<String,String> map = CharacterSetDao.getCharacterSetInCluster(connectionUtils,connection);
+    public static void getCharacterSetInCluster(Connection connection){
+        HashMap<String,String> map = CharacterSetDao.getCharacterSetInCluster(connection);
         System.out.println("集群中字符集配置为：");
         for(Map.Entry<String,String> entry : map.entrySet()){
             System.out.println(entry.getKey()+": "+entry.getValue());

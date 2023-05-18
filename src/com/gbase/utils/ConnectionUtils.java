@@ -21,21 +21,31 @@ public class ConnectionUtils {
     public void init() {
         File file = new File("./resource/connection.properties");
         try (InputStream inputStream = Files.newInputStream(file.toPath());
-             InputStreamReader reader = new InputStreamReader(inputStream,"UTF-8"); ) {
+             InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");) {
             this.properties.load(reader);
             System.out.println("配置文件读取完毕");
-            this.url = this.properties.getProperty("url");
-            this.user = this.properties.getProperty("user");
-            this.password = this.properties.getProperty("password");
-            this.driver = this.properties.getProperty("driver");
+            if(this.driver==null){
+                this.driver = this.properties.getProperty("driver");
+            }
             this.sql = this.properties.getProperty("sql");
+            if (this.driver.equals("com.gbase.jdbc.Driver")) {
+                System.out.println("所选择驱动为GBase8a驱动，进行对应配置加载");
+                this.url = this.properties.getProperty("url-gbase");
+                this.user = this.properties.getProperty("user-gbase");
+                this.password = this.properties.getProperty("password-gbase");
+            } else if (this.driver.equals("com.mysql.cj.jdbc.Driver")) {
+                System.out.println("所选择驱动为MySQL驱动，进行对应配置加载");
+                this.url = this.properties.getProperty("url-mysql");
+                this.user = this.properties.getProperty("user-mysql");
+                this.password = this.properties.getProperty("password-mysql");
+            }
         } catch (IOException e) {
             System.out.println("读取配置文件失败");
             e.printStackTrace();
         }
     }
 
-    public Connection establishConnection(){
+    public Connection establishConnection() {
         try {
             System.out.println("注册驱动成功");
             Class.forName(this.driver);
