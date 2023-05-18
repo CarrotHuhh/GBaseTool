@@ -1,7 +1,7 @@
 package com.gbase;
 
 
-import com.gbase.mode.Mode1;
+
 import com.gbase.mode.Mode2;
 
 public class Main {

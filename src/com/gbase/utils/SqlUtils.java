@@ -11,6 +11,7 @@ public class SqlUtils {
             Statement statement = connection.createStatement();
             return statement.executeQuery(sql);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("查询失败");
             return null;
         }
@@ -27,12 +28,11 @@ public class SqlUtils {
     }
 
     public static boolean insert(String sql, Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            System.out.println("插入成功");
+        try(Statement statement = connection.createStatement();) {
             return statement.execute(sql);
 //            return true;
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("插入失败");
 
         }
