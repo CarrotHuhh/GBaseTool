@@ -34,12 +34,14 @@ public class ConnectionUtils {
         }
     }
 
-    public Connection establishConnection() throws SQLException {
-        try (Connection connection = DriverManager.getConnection(this.url, this.user, this.password)) {
+    public Connection establishConnection(){
+        try {
+            Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
             System.out.println("创建连接成功");
             return connection;
         } catch (Exception e) {
             System.out.println("创建连接失败");
+            e.printStackTrace();
             return null;
         }
     }
