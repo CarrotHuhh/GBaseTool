@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Preparations {
@@ -22,27 +23,26 @@ public class Preparations {
 
     public void init() {
         File file = new File("./resource/connection.properties");
-        try {
-            InputStream inputStream = Files.newInputStream(file.toPath());
+        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             this.properties.load(inputStream);
-            inputStream.close();
+            System.out.println("配置文件读取完毕");
+            this.url = this.properties.getProperty("url");
+            this.user = this.properties.getProperty("user");
+            this.password = this.properties.getProperty("password");
+            this.driver = this.properties.getProperty("driver");
+            this.sql = this.properties.getProperty("sql");
         } catch (IOException e) {
             System.out.println("读取配置文件失败");
             e.printStackTrace();
         }
-        this.url = properties.getProperty("url");
-        this.user = properties.getProperty("user");
-        this.password = properties.getProperty("password");
-        this.driver = properties.getProperty("driver");
-        this.sql = this.properties.getProperty("sql");
     }
 
-    public Connection establishConnection() {
-        try {
-            return DriverManager.getConnection(this.url);
+    public Connection establishConnection() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(this.url, this.user, this.password)) {
+            System.out.println("创建连接成功");
+            return connection;
         } catch (Exception e) {
             System.out.println("创建连接失败");
-            e.printStackTrace();
             return null;
         }
     }
