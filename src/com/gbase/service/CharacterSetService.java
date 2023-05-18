@@ -22,4 +22,8 @@ public class CharacterSetService {
         String filename = null;
         return characterSetDao.checkLoadedFile(filename);
     }
+
+    public void checkCharset() {
+        loadFileIn();
+    }
 }

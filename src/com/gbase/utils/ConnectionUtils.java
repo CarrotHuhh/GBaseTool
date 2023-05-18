@@ -1,4 +1,4 @@
-package com.gbase.util;
+package com.gbase.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Preparations {
+public class ConnectionUtils {
     private Properties properties = new Properties();
     private String driver = null;
     private Connection conn = null;
@@ -17,9 +17,6 @@ public class Preparations {
     private String user = null;
     private String password = null;
     private String sql = null;
-
-    public Preparations() {
-    }
 
     public void init() {
         File file = new File("./resource/connection.properties");

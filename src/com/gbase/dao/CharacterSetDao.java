@@ -1,6 +1,6 @@
 package com.gbase.dao;
 
-import com.gbase.util.Preparations;
+import com.gbase.utils.ConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,17 +9,17 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 public class CharacterSetDao {
-    private Preparations preparations = new Preparations();
+    private ConnectionUtils connectionUtils = new ConnectionUtils();
 
     public HashMap<String, String> getCharacterSetInCluster() throws SQLException {
-        preparations.init();
+        connectionUtils.init();
         try {
-            Class.forName(preparations.getDriver());
+            Class.forName(connectionUtils.getDriver());
         } catch (ClassNotFoundException e) {
             System.out.println("注册驱动失败");
             e.printStackTrace();
         }
-        try (Connection conn = preparations.establishConnection();
+        try (Connection conn = connectionUtils.establishConnection();
              Statement stmt = conn.createStatement()) {
             HashMap<String, String> map = new HashMap<>();
             ResultSet resultSet = stmt.executeQuery("show variables like '%character_set%'");
