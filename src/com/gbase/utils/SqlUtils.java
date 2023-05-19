@@ -55,4 +55,7 @@ public class SqlUtils {
             }
         }
     }
+
+    public static void sqlPretreat(String sql) {
+    }
 }

@@ -1,6 +1,5 @@
 package com.gbase.mode;
 
-import com.gbase.service.CharacterSetService;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
@@ -27,7 +26,7 @@ public class Mode3 {
                 System.out.print(str + " | ");
             }
             System.out.println();
-            System.out.println("Mode5测试开始，请从以上支持的JDBC驱动中选择所使用的驱动，退出请输入quit：");
+            System.out.println("Mode3测试开始，请从以上支持的JDBC驱动中选择所使用的驱动，退出请输入quit：");
             Scanner scanner = new Scanner(System.in);
             String driverInput = scanner.nextLine();
             if (driverInput.equals("quit")) {
@@ -60,7 +59,7 @@ public class Mode3 {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("连接出现异常，Mode5测试结束，请检查登录配置");
+                    System.out.println("连接出现异常，Mode3测试结束，请检查登录配置");
                     e.printStackTrace();
                     scanner.close();
                     break label1;
