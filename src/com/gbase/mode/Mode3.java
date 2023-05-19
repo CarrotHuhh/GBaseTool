@@ -48,7 +48,7 @@ public class Mode3 {
                                 String sql = scanner.nextLine();
                                 System.out.println("所执行SQL语句为：" + sql);
                                 //功能未完成
-                                SqlUtils.insert(sql, connection);
+                                SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
                                 break;
                             case "back":
                                 break label2;
