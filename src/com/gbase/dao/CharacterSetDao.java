@@ -20,8 +20,4 @@ public class CharacterSetDao {
             return null;
         }
     }
-
-    public ResultSet checkLoadedFile(String filename) {
-        return null;
-    }
 }

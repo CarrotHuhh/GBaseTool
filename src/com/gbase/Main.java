@@ -1,7 +1,7 @@
 package com.gbase;
 
 
-import com.gbase.mode.*;
+import com.gbase.mode.Mode5;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,5 +11,6 @@ public class Main {
 //        Mode4 mode4 = new Mode4();
         Mode5 mode5 = new Mode5();
 //        Mode1 mode1 = new Mode1();
+
     }
 }

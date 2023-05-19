@@ -3,7 +3,6 @@ package com.gbase.service;
 import com.gbase.dao.CharacterSetDao;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,11 +19,6 @@ public class CharacterSetService {
 
     public void loadFileIn() {
         String filename = null;
-    }
-
-    public ResultSet checkLoadedFile() {
-        String filename = null;
-        return characterSetDao.checkLoadedFile(filename);
     }
 
     public void checkCharset() {
