@@ -16,8 +16,9 @@ public class Mode4 {
         Scanner scanner = new Scanner(System.in);
         try {
             Connection connection = connectionUtils.establishConnection();
+            boolean flag = true;
             label:
-            while (connection != null) {
+            while (connection != null && flag) {
                 CharacterSetService.getCharacterSetInCluster(connection);
                 SqlUtils.insertChosenCode(connection, "GBK");
                 //功能未完成
@@ -29,7 +30,8 @@ public class Mode4 {
                         String sql = scanner.nextLine();
                         System.out.println("所执行SQL语句为：" + sql);
                         //功能未完成
-                        SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
+                        flag=SqlUtils.sqlPretreat(sql, connection);
+//                        SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
                         System.out.println();
                         break;
                     case "back":

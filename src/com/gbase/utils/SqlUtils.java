@@ -35,6 +35,7 @@ public class SqlUtils {
         }
     }
 
+
     public static void insertChosenCode(Connection connection, String code) {
         String tmp_sql = "insert into testtable value(?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql)) {
@@ -56,6 +57,31 @@ public class SqlUtils {
         }
     }
 
-    public static void sqlPretreat(String sql) {
+    public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
+        String sub = sql.toLowerCase().split(" ")[0];
+        switch (sub) {
+            case "show":
+            case "select":
+            case "desc":
+                SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
+                return true;
+            case "alter":
+            case "insert":
+                SqlUtils.insert(sql, connection);
+                return true;
+            case "drop":
+            case "create":
+            case "delete":
+            case "truncate":
+            case "update":
+                SqlUtils.update(sql, connection);
+                return true;
+            case "quit":
+                connection.close();
+                return false;
+            default:
+                System.out.println("SQL语句输入错误，请重新输入：");
+                return true;
+        }
     }
 }

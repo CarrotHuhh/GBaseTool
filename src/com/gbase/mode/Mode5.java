@@ -37,8 +37,9 @@ public class Mode5 {
                 connectionUtils.init();
                 try {
                     Connection connection = connectionUtils.establishConnection();
+                    boolean flag = true;
                     label2:
-                    while (connection != null) {
+                    while (connection != null && flag) {
                         CharacterSetService.getCharacterSetInCluster(connection);
                         SqlUtils.insertChosenCode(connection, "UTF-8");
                         //功能未完成
@@ -50,7 +51,8 @@ public class Mode5 {
                                 String sql = scanner.nextLine();
                                 System.out.println("所执行SQL语句为：" + sql);
                                 //功能未完成
-                                SqlUtils.insert(sql, connection);
+                                flag=SqlUtils.sqlPretreat(sql, connection);
+//                                SqlUtils.insert(sql, connection);
                                 break;
                             case "back":
                                 break label2;
