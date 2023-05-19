@@ -19,8 +19,8 @@ public class Mode4 {
             label:
             while (connection != null) {
                 CharacterSetService.getCharacterSetInCluster(connection);
-                SqlUtils.insertChosenCode(connection, "GBK");
-                //功能未完成
+                String tableName = null;
+                SqlUtils.insertChosenCode(connection, "GBK", tableName);
                 System.out.println("进行sql测试请输入sqltest，输入quit退出程序：");
                 String sqlInput = scanner.nextLine();
                 switch (sqlInput) {

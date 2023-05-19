@@ -40,8 +40,9 @@ public class Mode5 {
                     label2:
                     while (connection != null) {
                         CharacterSetService.getCharacterSetInCluster(connection);
-                        SqlUtils.insertChosenCode(connection, "UTF-8");
-                        //功能未完成
+                        System.out.println("请输入要进行插入指定编码语句测试的表名");
+                        String tableName = scanner.nextLine();
+                        SqlUtils.insertChosenCode(connection, "GBK", tableName);
                         System.out.println("该驱动连接数据库成功，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
