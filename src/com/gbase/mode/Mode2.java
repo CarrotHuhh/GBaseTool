@@ -21,7 +21,7 @@ public class Mode2 {
                 System.out.println("请输入SQL语句，若要退出则输入quit：");
                 Scanner scanner = new Scanner(System.in);
                 String sql = scanner.nextLine();
-                flag=SqlUtils.sqlPretreat(sql, connection);
+                flag = SqlUtils.sqlPretreat(sql, connection);
             }
         } catch (Exception e) {
             System.out.println("连接出现异常，Mode2测试完毕，请检查登录配置");

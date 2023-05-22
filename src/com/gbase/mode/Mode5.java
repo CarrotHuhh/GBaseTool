@@ -40,11 +40,7 @@ public class Mode5 {
                     boolean flag = true;
                     label2:
                     while (connection != null && flag) {
-                        CharacterSetService.getCharacterSetInCluster(connection);
-                        System.out.println("请输入要进行插入指定编码语句测试的表名");
-                        String tableName = scanner.nextLine();
-                        SqlUtils.insertChosenCode(connection, "GBK", tableName);
-                        System.out.println("该驱动连接数据库成功，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
+                        System.out.println("该驱动连接数据库成功，输入charsettest进行字符集测试，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
                             case "sqltest":
@@ -52,7 +48,7 @@ public class Mode5 {
                                 String sql = scanner.nextLine();
                                 System.out.println("所执行SQL语句为：" + sql);
                                 //功能未完成
-                                flag=SqlUtils.sqlPretreat(sql, connection);
+                                flag = SqlUtils.sqlPretreat(sql, connection);
 //                                SqlUtils.insert(sql, connection);
                                 break;
                             case "back":
@@ -60,6 +56,12 @@ public class Mode5 {
                             case "quit":
                                 connection.close();
                                 break label1;
+                            case "charsettest":
+                                CharacterSetService.getCharacterSetInCluster(connection);
+                                System.out.println("请输入要进行插入指定编码语句测试的表名");
+                                String tableName = scanner.nextLine();
+                                SqlUtils.insertChosenCode(connection, "GBK", tableName);
+                                break label2;
                             default:
                                 System.out.println("指令输入错误，请重新输入，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         }

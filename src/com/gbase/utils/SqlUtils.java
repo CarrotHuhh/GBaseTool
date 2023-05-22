@@ -51,7 +51,6 @@ public class SqlUtils {
             }
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql.toString())) {
-            //健壮性不足
             for (int i = 1; i <= list.size(); i++) {
                 if (list.get(i - 1).getValue().equals("VARCHAR")) {
                     preparedStatement.setBytes(i, "张三".getBytes(code));
@@ -70,10 +69,11 @@ public class SqlUtils {
         }
     }
 
-    public static void printResultSet(ResultSet resultSet, int numOfClolumn) throws SQLException {
+    public static void printResultSet(ResultSet resultSet, int numOfColumn) throws SQLException {
+        System.out.println("查询结果如下：");
         while (resultSet.next()) {
-            for (int i = 1; i <= numOfClolumn; i++) {
-                if (i != numOfClolumn) {
+            for (int i = 1; i <= numOfColumn; i++) {
+                if (i != numOfColumn) {
                     System.out.print(resultSet.getString(i) + "-----");
                 } else {
                     System.out.print(resultSet.getString(i));
@@ -81,6 +81,25 @@ public class SqlUtils {
             }
             System.out.println();
         }
+    }
+
+    public static String getTableName(String sql) {
+        String tableName = null;
+        String[] strings = sql.toLowerCase().split(" ");
+        List<String> list = new ArrayList<>();
+        for (String str : strings) {
+            list.add(str);
+        }
+        if (list.contains("into")) {
+            tableName = list.get(list.indexOf("into") + 1);
+        } else if (list.contains("delete")) {
+            tableName = list.get(list.indexOf("delete") + 1);
+        } else if (list.contains("update")) {
+            tableName = list.get(list.indexOf("update") + 1);
+        } else if (list.contains("from")) {
+            tableName = list.get(list.indexOf("from") + 1);
+        }
+        return tableName;
     }
 
     public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) {
@@ -113,12 +132,14 @@ public class SqlUtils {
     }
 
     public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
+        String tableName = getTableName(sql);
         String sub = sql.toLowerCase().split(" ")[0];
         switch (sub) {
             case "show":
             case "select":
+                //待完善
             case "desc":
-                SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
+                SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
                 return true;
             case "alter":
             case "insert":
