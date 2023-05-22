@@ -98,6 +98,8 @@ public class SqlUtils {
             tableName = list.get(list.indexOf("update") + 1);
         } else if (list.contains("from")) {
             tableName = list.get(list.indexOf("from") + 1);
+        } else {
+            tableName = null;
         }
         return tableName;
     }
@@ -137,9 +139,10 @@ public class SqlUtils {
         switch (sub) {
             case "show":
             case "select":
-                //待完善
             case "desc":
-                SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
+                if (tableName != null)
+                    SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
+                else SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
                 return true;
             case "alter":
             case "insert":
