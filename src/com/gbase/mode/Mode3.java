@@ -4,6 +4,7 @@ import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,12 +45,19 @@ public class Mode3 {
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
                             case "sqltest":
-                                System.out.println("请输入要执行的SQl语句");
-                                String sql = scanner.nextLine();
-                                System.out.println("所执行SQL语句为：" + sql);
-                                //功能未完成
-                                flag = SqlUtils.sqlPretreat(sql, connection);
-//                                SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
+                                boolean flag_tmp = true;
+                                while (flag_tmp) {
+                                    System.out.println("请输入要执行的SQl语句");
+                                    String sql = scanner.nextLine();
+                                    System.out.println("所执行SQL语句为：" + sql);
+                                    try {
+                                        flag_tmp = SqlUtils.sqlPretreat(sql, connection);
+                                        flag_tmp = false;
+                                    } catch (SQLException e) {
+                                        System.out.println("sql语句输入错误，请重新输入");
+                                    }
+                                }
+                                System.out.println();
                                 break;
                             case "back":
                                 break label2;

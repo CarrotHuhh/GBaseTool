@@ -7,40 +7,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlUtils {
-    public static ResultSet query(String sql, Connection connection) {
+    public static ResultSet query(String sql, Connection connection) throws SQLException {
         try {
             Statement statement = connection.createStatement();
             return statement.executeQuery(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("查询失败");
-            return null;
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
-    public static int update(String sql, Connection connection) {
+    public static int update(String sql, Connection connection) throws SQLException {
         try {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(sql);
-        } catch (Exception e) {
-            System.out.println("更新失败");
-            return 0;
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
-    public static boolean insert(String sql, Connection connection) {
+    public static boolean insert(String sql, Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("插入失败");
-            return false;
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
 
-    public static void insertChosenCode(Connection connection, String code, String tableName) {
+    public static void insertChosenCode(Connection connection, String code, String tableName) throws SQLException {
         List<Pair<String, String>> list = getTableStructure(connection, tableName);
         StringBuilder tmp_sql = new StringBuilder("insert into " + tableName + " value(");
         for (int i = 0; i < list.size(); i++) {
@@ -104,7 +99,7 @@ public class SqlUtils {
         return tableName;
     }
 
-    public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) {
+    public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) throws SQLException {
         String sql = "select * from " + tableName + " limit 0,1";
         List<Pair<String, String>> list = new ArrayList<>();
         if (connection != null) {
@@ -124,10 +119,9 @@ public class SqlUtils {
                 }
                 System.out.println("-------------------------");
                 return list;
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (SQLException e) {
                 System.out.println("获取表结构失败");
-                return null;
+                throw e;
             }
         }
         return null;
@@ -159,8 +153,8 @@ public class SqlUtils {
                 connection.close();
                 return false;
             default:
-                System.out.println("SQL语句输入错误，请重新输入：");
-                return true;
+                SQLException ex = new SQLException();
+                throw ex;
         }
     }
 }

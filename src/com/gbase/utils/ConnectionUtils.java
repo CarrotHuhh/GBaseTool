@@ -21,7 +21,7 @@ public class ConnectionUtils {
     public void init() {
         File file = new File("./resource/connection.properties");
         try (InputStream inputStream = Files.newInputStream(file.toPath());
-             InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");) {
+             InputStreamReader reader = new InputStreamReader(inputStream)) {
             this.properties.load(reader);
             System.out.println("配置文件读取完毕");
             if (this.driver == null) {

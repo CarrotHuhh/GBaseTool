@@ -5,6 +5,7 @@ import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,25 +44,38 @@ public class Mode5 {
                         System.out.println("该驱动连接数据库成功，输入charsettest进行字符集测试，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
+                            case "charsettest":
+                                CharacterSetService.getCharacterSetInCluster(connection);
+                                System.out.println("请输入要进行插入指定编码语句测试的表名");
+                                String tableName = scanner.nextLine();
+                                System.out.println("请输入要进行插入指定语句测试所使用的编码");
+                                String code = scanner.nextLine();
+                                try {
+                                    SqlUtils.insertChosenCode(connection, code, tableName);
+                                    continue;
+                                } catch (SQLException e) {
+                                    continue;
+                                }
                             case "sqltest":
-                                System.out.println("请输入要执行的SQl语句");
-                                String sql = scanner.nextLine();
-                                System.out.println("所执行SQL语句为：" + sql);
-                                //功能未完成
-                                flag = SqlUtils.sqlPretreat(sql, connection);
-//                                SqlUtils.insert(sql, connection);
-                                break;
+                                boolean flag_tmp = true;
+                                while (flag_tmp) {
+                                    System.out.println("请输入要执行的SQl语句");
+                                    String sql = scanner.nextLine();
+                                    System.out.println("所执行SQL语句为：" + sql);
+                                    try {
+                                        flag_tmp = SqlUtils.sqlPretreat(sql, connection);
+                                        flag_tmp = false;
+                                    } catch (SQLException e) {
+                                        System.out.println("sql语句输入错误，请重新输入");
+                                    }
+                                }
+                                System.out.println();
+                                continue;
                             case "back":
                                 break label2;
                             case "quit":
                                 connection.close();
                                 break label1;
-                            case "charsettest":
-                                CharacterSetService.getCharacterSetInCluster(connection);
-                                System.out.println("请输入要进行插入指定编码语句测试的表名");
-                                String tableName = scanner.nextLine();
-                                SqlUtils.insertChosenCode(connection, "GBK", tableName);
-                                break label2;
                             default:
                                 System.out.println("指令输入错误，请重新输入，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         }
