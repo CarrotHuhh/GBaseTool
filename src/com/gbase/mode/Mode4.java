@@ -25,9 +25,8 @@ public class Mode4 {
         Scanner scanner = new Scanner(System.in);
         try {
             Connection connection = connectionUtils.establishConnection();
-            boolean flag = true;
             label:
-            while (connection != null && flag) {
+            while (connection != null) {
                 System.out.println("请输入1进行sql测试，请输入2进行字符集测试，输入0退出程序：");
                 String sqlInput = scanner.nextLine();
                 switch (sqlInput) {

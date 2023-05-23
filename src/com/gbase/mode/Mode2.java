@@ -22,7 +22,7 @@ public class Mode2 {
             System.out.println(e);
         }
         try (Connection connection = connectionUtils.establishConnection()) {
-            while (true) {
+            while (connection != null) {
                 System.out.println("请输入SQL语句，若要退出则输入0");
                 String sql = scanner.nextLine();
                 System.out.println("所执行SQL语句为：" + sql);
