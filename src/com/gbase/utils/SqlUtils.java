@@ -127,19 +127,23 @@ public class SqlUtils {
         return null;
     }
 
+    // 对输入的SQL语句进行预处理
     public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
         String tableName = getTableName(sql);
+        // 对输入的SQL语句进行识别
         String sub = sql.toLowerCase().split(" ")[0];
         switch (sub) {
             case "show":
             case "select":
             case "desc":
+                // 如果输入的 SQL 语句是 show、select 或 desc，则查询数据库并打印结果
                 if (tableName != null)
                     SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
                 else SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
                 return true;
             case "alter":
             case "insert":
+                // 如果输入的 SQL 语句是 alter 或 insert，则向数据库中修改数据
                 SqlUtils.insert(sql, connection);
                 return true;
             case "drop":
@@ -147,9 +151,11 @@ public class SqlUtils {
             case "delete":
             case "truncate":
             case "update":
+                // 如果输入的 SQL 语句是 drop、create、delete、truncate 或 update，则更新数据库中的数据
                 SqlUtils.update(sql, connection);
                 return true;
             default:
+                // 如果输入的 SQL 语句不是以上任何一种类型，则抛出异常
                 SQLException ex = new SQLException();
                 throw ex;
         }

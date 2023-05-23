@@ -1,3 +1,7 @@
 resource
 out
+<<<<<<< HEAD
 dist:
+=======
+dist
+>>>>>>> refs/remotes/origin/main

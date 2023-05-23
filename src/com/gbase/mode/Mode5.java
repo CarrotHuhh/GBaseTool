@@ -26,7 +26,6 @@ public class Mode5 {
             for (int i = 0; i < jars.size(); i++) {
                 System.out.println(i + 1 + ". " + jars.get(i));
             }
-            System.out.println();
             Scanner scanner = new Scanner(System.in);
             String jarsInput = scanner.nextLine();
             if (jarsInput.equals("0")) {
@@ -43,9 +42,9 @@ public class Mode5 {
                     System.out.println(e);
                     continue;
                 }
-                try (Connection connection = connectionUtils.establishConnection()){
+                try (Connection connection = connectionUtils.establishConnection()) {
                     label2:
-                    while (true) {
+                    while (connection != null) {
                         System.out.println("该驱动连接数据库成功，输入1进行字符集测试，输入2进行sql测试，输入3返回切换驱动连接测试，输入0退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
@@ -104,6 +103,7 @@ public class Mode5 {
             }
         }
     }
+
     public boolean isNumber(String str) {
         for (int i = str.length(); --i >= 0; ) {
             if (!Character.isDigit(str.charAt(i))) {

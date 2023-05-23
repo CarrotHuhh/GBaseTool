@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtils {
+    // 定义配置文件和所需jar包的相对路径
     public static final String PROPERTIES_PATH = "./connection.properties";
     public static final String EXTERNAL_JAR_PATH = "./jar/";
     private Properties properties = new Properties();
