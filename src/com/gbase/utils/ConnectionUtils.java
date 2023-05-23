@@ -38,6 +38,9 @@ public class ConnectionUtils {
             if (this.driver == null) {
                 this.driver = this.properties.getProperty("driver");
             }
+            if (this.jarName == null) {
+                this.jarName = this.properties.getProperty("jarName");
+            }
             loadProperties();
             System.out.println("配置文件读取完毕");
         } catch (IOException e) {
