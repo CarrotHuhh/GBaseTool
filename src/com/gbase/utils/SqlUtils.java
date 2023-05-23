@@ -149,9 +149,6 @@ public class SqlUtils {
             case "update":
                 SqlUtils.update(sql, connection);
                 return true;
-            case "quit":
-                connection.close();
-                return false;
             default:
                 SQLException ex = new SQLException();
                 throw ex;

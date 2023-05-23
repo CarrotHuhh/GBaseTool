@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtils {
-    public static final String PROPERTIES_PATH = "./resource/connection.properties";
-    public static final String EXTERNAL_JAR_PATH = "./dist/jar/";
+    public static final String PROPERTIES_PATH = "./connection.properties";
+    public static final String EXTERNAL_JAR_PATH = "./jar/";
     private Properties properties = new Properties();
     private String driver = null;
     private String url = null;
