@@ -8,6 +8,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * @ClassName: Mode4.class
+ * @Description: 本类用于测试数据库对不同SQL语句的处理情况，以及字符集相关配置是否正常。
+ */
 public class Mode4 {
     private ConnectionUtils connectionUtils;
 

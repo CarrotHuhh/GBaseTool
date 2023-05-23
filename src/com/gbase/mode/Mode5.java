@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @ClassName: Mode5.class
+ */
 public class Mode5 {
     private ConnectionUtils connectionUtils;
 
@@ -40,11 +43,9 @@ public class Mode5 {
                     System.out.println(e);
                     continue;
                 }
-                try {
-                    Connection connection = connectionUtils.establishConnection();
-                    boolean flag = true;
+                try (Connection connection = connectionUtils.establishConnection()){
                     label2:
-                    while (connection != null && flag) {
+                    while (true) {
                         System.out.println("该驱动连接数据库成功，输入1进行字符集测试，输入2进行sql测试，输入3返回切换驱动连接测试，输入0退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {

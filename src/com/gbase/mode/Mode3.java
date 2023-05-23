@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * @ClassName: Mode3.class
- * @Description: 本类用于测试不同JDBC驱动在客户端能否顺利运行
+ * @Description: 本类用于测试不同JDBC驱动在客户端能否顺利运行,并可在连接后测试不同SQL语句的运行情况。
  */
 public class Mode3 {
     private ConnectionUtils connectionUtils;
@@ -43,11 +43,9 @@ public class Mode3 {
                     System.out.println(e);
                     continue;
                 }
-                try {
-                    Connection connection = connectionUtils.establishConnection();
-                    boolean flag = true;
+                try (Connection connection = connectionUtils.establishConnection()){
                     label2:
-                    while (connection != null && flag) {
+                    while (true) {
                         System.out.println("该驱动连接数据库成功，输入1进行sql测试，输入2返回切换驱动连接测试，输入0退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
