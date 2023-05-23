@@ -1,6 +1,6 @@
 package com.gbase.mode;
 
-import com.gbase.service.CharacterSetService;
+import com.gbase.utils.CharacterSetUtils;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
@@ -24,7 +24,7 @@ public class Mode4 {
                 String sqlInput = scanner.nextLine();
                 switch (sqlInput) {
                     case "charsettest":
-                        CharacterSetService.getCharacterSetInCluster(connection);
+                        CharacterSetUtils.getCharacterSetInCluster(connection);
                         System.out.println("请输入要进行插入指定编码语句测试的表名");
                         String tableName = scanner.nextLine();
                         System.out.println("请输入要进行插入指定语句测试所使用的编码");
