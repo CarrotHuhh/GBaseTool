@@ -127,7 +127,7 @@ public class SqlUtils {
         return null;
     }
 
-    public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
+    public static void sqlPretreat(String sql, Connection connection) throws SQLException {
         String tableName = getTableName(sql);
         String sub = sql.toLowerCase().split(" ")[0];
         switch (sub) {
@@ -137,18 +137,15 @@ public class SqlUtils {
                 if (tableName != null)
                     SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
                 else SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
-                return true;
             case "alter":
             case "insert":
                 SqlUtils.insert(sql, connection);
-                return true;
             case "drop":
             case "create":
             case "delete":
             case "truncate":
             case "update":
                 SqlUtils.update(sql, connection);
-                return true;
             default:
                 SQLException ex = new SQLException();
                 throw ex;

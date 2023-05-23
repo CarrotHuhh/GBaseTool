@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 /**
  * @ClassName: Mode5.class
+ * @Description: 本类集成了其他四个模式的测试，通过Mode5可覆盖连接、切换驱动、自定义SQL语句以及字符集配置情况。
  */
 public class Mode5 {
     private ConnectionUtils connectionUtils;
@@ -31,6 +32,7 @@ public class Mode5 {
             if (jarsInput.equals("0")) {
                 scanner.close();
                 break label1;
+                //判断输入是否合法，需要满足为数字串且大小在扫描到的驱动数量内
             } else if (isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
                 connectionUtils.setJarName(jars.get(Integer.valueOf(jarsInput) - 1));
                 System.out.println("请输入驱动类名：");
@@ -72,7 +74,7 @@ public class Mode5 {
                                     }
                                     System.out.println("所执行SQL语句为：" + sql);
                                     try {
-                                        flag_tmp = SqlUtils.sqlPretreat(sql, connection);
+                                        SqlUtils.sqlPretreat(sql, connection);
                                         flag_tmp = false;
                                     } catch (SQLException e) {
                                         System.out.println("sql语句输入错误，请重新输入");

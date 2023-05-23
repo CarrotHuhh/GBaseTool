@@ -19,6 +19,7 @@ public class Mode3 {
 
     public Mode3() {
         connectionUtils = new ConnectionUtils();
+        //命令行第一级页面，引导用户选择驱动
         label1:
         while (true) {
             System.out.println("Mode3测试开始，请从以下支持的JDBC驱动中选择所使用的驱动序号，退出请输入0：");
@@ -44,24 +45,31 @@ public class Mode3 {
                     continue;
                 }
                 try (Connection connection = connectionUtils.establishConnection()) {
+                    //命令行二级页面，引导用户进行测试模式选择
                     label2:
                     while (connection != null) {
                         System.out.println("该驱动连接数据库成功，输入1进行sql测试，输入2返回切换驱动连接测试，输入0退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
+                            //直接退出label2循环
+                            case "0":
+                                break label1;
+                            //进行SQL测试，使用flag_tmp标记是否继续循环，flag_tmp在SQL语句执行完成后失效，循环退出
                             case "1":
                                 boolean flag_tmp = true;
                                 while (flag_tmp) {
-                                    System.out.println("请输入要执行的SQl语句,或输入2返回切换驱动连接测试，输入0退出程序：");
+                                    System.out.println("请输入要执行的SQl语句,或输入1返回切换驱动连接测试，输入0退出程序：");
                                     String sql = scanner.nextLine();
-                                    if (sql.equals("2")) {
-                                        break label2;
-                                    } else if (sql.equals("0")) {
+                                    if (sql.equals("0")) {
                                         break label1;
+                                    } else if (sql.equals("1")) {
+                                        break label2;
                                     }
                                     System.out.println("所执行SQL语句为：" + sql);
                                     try {
-                                        flag_tmp = SqlUtils.sqlPretreat(sql, connection);
+                                        //调用sqlPretr()执行SQL语句，若SQL执行成功则try语句块顺利完成，
+                                        // 将给flag_tmp赋值false，使SQL测试循环退出，否则再次循环使用户能重新输入SQL语句
+                                        SqlUtils.sqlPretreat(sql, connection);
                                         flag_tmp = false;
                                     } catch (SQLException e) {
                                         System.out.println("sql语句输入错误，请重新输入");
@@ -69,16 +77,15 @@ public class Mode3 {
                                 }
                                 System.out.println();
                                 break;
+                            //结束SQL测试，返回上级页面进行驱动选择
                             case "2":
                                 break label2;
-                            case "0":
-                                connection.close();
-                                break label1;
                             default:
                                 System.out.println("指令输入错误，请重新输入，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
                         }
                     }
                 } catch (Exception e) {
+                    //判断异常种类，若为驱动加载问题而非连接问题则返回驱动选择界面
                     if (e instanceof LoadJarException) {
                         continue;
                     }
@@ -93,6 +100,10 @@ public class Mode3 {
         }
     }
 
+    /**
+     * @param str
+     * @return (boolean)返回str是否为数字串的布尔值。
+     */
     public boolean isNumber(String str) {
         for (int i = str.length(); --i >= 0; ) {
             if (!Character.isDigit(str.charAt(i))) {
