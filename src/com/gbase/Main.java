@@ -2,7 +2,6 @@ package com.gbase;
 
 
 import com.gbase.mode.*;
-import com.gbase.utils.JarUtils;
 
 public class Main {
     public static void main(String[] args) {

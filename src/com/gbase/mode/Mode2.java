@@ -16,7 +16,11 @@ public class Mode2 {
 
     public Mode2() {
         connectionUtils = new ConnectionUtils();
-        connectionUtils.init();
+        try {
+            connectionUtils.init();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         Connection connection = null;
         try {
             connection = connectionUtils.establishConnection();

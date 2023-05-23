@@ -1,5 +1,6 @@
 package com.gbase.mode;
 
+import com.gbase.Exceptions.LoadJarException;
 import com.gbase.utils.CharacterSetUtils;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.JarUtils;
@@ -33,7 +34,12 @@ public class Mode5 {
                 System.out.println("请输入驱动类名：");
                 String driverInput = scanner.nextLine();
                 connectionUtils.setDriver(driverInput);
-                connectionUtils.init();
+                try {
+                    connectionUtils.init();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    continue;
+                }
                 try {
                     Connection connection = connectionUtils.establishConnection();
                     boolean flag = true;
@@ -84,6 +90,9 @@ public class Mode5 {
                         }
                     }
                 } catch (Exception e) {
+                    if (e instanceof LoadJarException) {
+                        continue;
+                    }
                     System.out.println("连接出现异常，Mode5测试结束，请检查登录配置");
                     e.printStackTrace();
                     scanner.close();

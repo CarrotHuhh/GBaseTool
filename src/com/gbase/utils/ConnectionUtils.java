@@ -1,5 +1,7 @@
 package com.gbase.utils;
 
+import com.gbase.Exceptions.LoadJarException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +13,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtils {
-    public static final String PROPERTIES_PATH = "connection.properties";
-    public static final String EXTERNAL_JAR_PATH = "jar";
+    public static final String PROPERTIES_PATH = "./connection.properties";
+    public static final String EXTERNAL_JAR_PATH = "./jar/";
     private Properties properties = new Properties();
     private String driver = null;
     private String url = null;
@@ -28,7 +30,7 @@ public class ConnectionUtils {
         this.jarName = jarName;
     }
 
-    public void init() {
+    public void init() throws Exception {
         File file = new File(PROPERTIES_PATH);
         try (InputStream inputStream = Files.newInputStream(file.toPath());
              InputStreamReader reader = new InputStreamReader(inputStream)) {
@@ -44,7 +46,7 @@ public class ConnectionUtils {
         }
     }
 
-    public Connection establishConnection() {
+    public Connection establishConnection() throws LoadJarException {
         if (JarUtils.getAllJars().contains(this.jarName)) {
             JarUtils.loadJar(this.jarName);
         }
@@ -52,8 +54,7 @@ public class ConnectionUtils {
             Class.forName(this.driver);
             System.out.println("加载驱动成功");
         } catch (ClassNotFoundException e) {
-            System.out.println("加载驱动失败");
-            throw new RuntimeException(e);
+            throw new LoadJarException();
         }
         try {
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
@@ -61,7 +62,6 @@ public class ConnectionUtils {
             return connection;
         } catch (SQLException e) {
             System.out.println("创建连接失败");
-            e.printStackTrace();
             return null;
         }
     }
@@ -82,11 +82,13 @@ public class ConnectionUtils {
         this.driver = driver;
     }
 
-    public void loadProperties() {
-        String driverName = this.driver.split("\\.")[1];
-        System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
-        this.url = this.properties.getProperty("url-" + driverName);
-        this.user = this.properties.getProperty("user-" + driverName);
-        this.password = this.properties.getProperty("password-" + driverName);
+    public void loadProperties() throws Exception {
+        if (this.driver.split("\\.").length >= 2) {
+            String driverName = this.driver.split("\\.")[1];
+            System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
+            this.url = this.properties.getProperty("url-" + driverName);
+            this.user = this.properties.getProperty("user-" + driverName);
+            this.password = this.properties.getProperty("password-" + driverName);
+        } else throw new LoadJarException();
     }
 }

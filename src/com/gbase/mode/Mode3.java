@@ -1,5 +1,6 @@
 package com.gbase.mode;
 
+import com.gbase.Exceptions.LoadJarException;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.JarUtils;
 import com.gbase.utils.SqlUtils;
@@ -31,12 +32,17 @@ public class Mode3 {
             if (jarsInput.equals("0")) {
                 scanner.close();
                 break label1;
-            } else if (Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
+            } else if (isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
                 connectionUtils.setJarName(jars.get(Integer.valueOf(jarsInput) - 1));
                 System.out.println("请输入驱动类名：");
                 String driverInput = scanner.nextLine();
                 connectionUtils.setDriver(driverInput);
-                connectionUtils.init();
+                try {
+                    connectionUtils.init();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    continue;
+                }
                 try {
                     Connection connection = connectionUtils.establishConnection();
                     boolean flag = true;
@@ -75,6 +81,9 @@ public class Mode3 {
                         }
                     }
                 } catch (Exception e) {
+                    if (e instanceof LoadJarException) {
+                        continue;
+                    }
                     System.out.println("连接出现异常，Mode3测试结束，请检查登录配置");
                     e.printStackTrace();
                     scanner.close();
@@ -84,5 +93,14 @@ public class Mode3 {
                 System.out.println("指令输入错误，选择正确的驱动序号，退出请输入0：");
             }
         }
+    }
+
+    public boolean isNumber(String str) {
+        for (int i = str.length(); --i >= 0; ) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

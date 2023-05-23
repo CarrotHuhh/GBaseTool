@@ -9,7 +9,7 @@ import java.util.List;
 
 public class JarUtils {
     public static void loadJar(String jarName) {
-        jarName = "../jar/" + jarName;
+        jarName = ConnectionUtils.EXTERNAL_JAR_PATH + jarName;
         File jarFile = new File(jarName);
         // 从URLClassLoader类中获取类所在文件夹的方法，jar也可以认为是一个文件夹
         Method method = null;

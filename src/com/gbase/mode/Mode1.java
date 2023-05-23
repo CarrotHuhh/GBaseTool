@@ -13,7 +13,11 @@ public class Mode1 {
 
     public Mode1() {
         connectionUtils = new ConnectionUtils();
-        connectionUtils.init();
+        try {
+            connectionUtils.init();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         try (Connection connection = connectionUtils.establishConnection()) {
             if (connection != null)
                 System.out.println("连接正常，Mode1测试完毕");

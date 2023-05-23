@@ -13,7 +13,11 @@ public class Mode4 {
 
     public Mode4() {
         connectionUtils = new ConnectionUtils();
-        connectionUtils.init();
+        try {
+            connectionUtils.init();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         Scanner scanner = new Scanner(System.in);
         try {
             Connection connection = connectionUtils.establishConnection();
@@ -38,9 +42,9 @@ public class Mode4 {
                     case "sqltest":
                         boolean flag_tmp = true;
                         while (flag_tmp) {
-                        System.out.println("请输入要执行的SQl语句");
-                        String sql = scanner.nextLine();
-                        System.out.println("所执行SQL语句为：" + sql);
+                            System.out.println("请输入要执行的SQl语句");
+                            String sql = scanner.nextLine();
+                            System.out.println("所执行SQL语句为：" + sql);
                             try {
                                 flag_tmp = SqlUtils.sqlPretreat(sql, connection);
                                 flag_tmp = false;
