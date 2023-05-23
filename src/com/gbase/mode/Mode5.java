@@ -29,7 +29,7 @@ public class Mode5 {
             if (jarsInput.equals("0")) {
                 scanner.close();
                 break label1;
-            } else if (Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
+            } else if (isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
                 connectionUtils.setJarName(jars.get(Integer.valueOf(jarsInput) - 1));
                 System.out.println("请输入驱动类名：");
                 String driverInput = scanner.nextLine();
@@ -102,5 +102,13 @@ public class Mode5 {
                 System.out.println("指令输入错误，选择正确的驱动序号，退出请输入0：");
             }
         }
+    }
+    public boolean isNumber(String str) {
+        for (int i = str.length(); --i >= 0; ) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
