@@ -7,7 +7,7 @@ import com.gbase.utils.JarUtils;
 public class Main {
     public static void main(String[] args) {
         if (args.length == 1) {
-            String mode = args[0];
+            String mode = args[0].toLowerCase();
             switch (mode) {
                 case "mode1":
                     Mode1 mode1 = new Mode1();

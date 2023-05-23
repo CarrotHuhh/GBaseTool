@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class ConnectionUtils {
     public static final String PROPERTIES_PATH = "./resource/connection.properties";
-    public static final String EXTERNAL_JAR_PATH = "../jar";
+    public static final String EXTERNAL_JAR_PATH = "./jar";
     private Properties properties = new Properties();
     private String driver = null;
     private String url = null;
@@ -35,9 +35,6 @@ public class ConnectionUtils {
             this.properties.load(reader);
             if (this.driver == null) {
                 this.driver = this.properties.getProperty("driver");
-            }
-            if (this.jarName == null) {
-                this.jarName = this.properties.getProperty("jarName");
             }
             loadProperties();
             System.out.println("配置文件读取完毕");
@@ -86,7 +83,6 @@ public class ConnectionUtils {
     }
 
     public void loadProperties() {
-        System.out.println(this.driver);
         String driverName = this.driver.split("\\.")[1];
         System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
         this.url = this.properties.getProperty("url-" + driverName);
