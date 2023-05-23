@@ -25,7 +25,7 @@ public class Main {
                     break;
             }
         } else {
-            Mode3 mode2 = new Mode3();
+            Mode2 mode2 = new Mode2();
         }
     }
 }

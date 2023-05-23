@@ -1,5 +1,6 @@
 package com.gbase.mode;
 
+import com.gbase.Exceptions.LoadJarException;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.SqlUtils;
 
@@ -14,7 +15,7 @@ import java.util.Scanner;
 public class Mode2 {
     private ConnectionUtils connectionUtils;
 
-    public Mode2() {
+    public Mode2()   {
         connectionUtils = new ConnectionUtils();
         try {
             connectionUtils.init();
@@ -22,23 +23,31 @@ public class Mode2 {
             System.out.println(e);
         }
         Connection connection = null;
+
         try {
             connection = connectionUtils.establishConnection();
-            boolean flag = true;
-            while (connection != null && flag) {
-                System.out.println("请输入SQL语句，若要退出则输入quit：");
-                Scanner scanner = new Scanner(System.in);
-                String sql = scanner.nextLine();
-                flag = SqlUtils.sqlPretreat(sql, connection);
-            }
         } catch (Exception e) {
             System.out.println("连接出现异常，Mode2测试完毕，请检查登录配置");
-            e.printStackTrace();
             try {
                 connection.close();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
+        boolean flag = true;
+            while (connection != null && flag) {
+                try {
+                    System.out.println("请输入SQL语句，若要退出则输入0");
+                    Scanner scanner = new Scanner(System.in);
+                    String sql = scanner.nextLine();
+                    System.out.println("所执行SQL语句为：" + sql);
+                    flag = SqlUtils.sqlPretreat(sql, connection);
+                } catch (Exception e) {
+                    System.out.println("sql语句输入错误，请重新输入");
+//                    e.printStackTrace();
+
+                    continue;
+                }
+            }
     }
 }

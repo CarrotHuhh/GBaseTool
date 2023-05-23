@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GbaseToolDemo:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/GbaseToolDemo_jar2</output-path>
+    <root id="archive" name="GbaseToolDemo.jar">
+      <element id="module-output" name="GbaseToolDemo" />
+      <element id="library" level="project" name="lib" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/mysql-connector-java-8.0.28.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar/gbase-connector-java-9.5.0.1-build1-bin.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
