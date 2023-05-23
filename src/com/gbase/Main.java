@@ -2,6 +2,7 @@ package com.gbase;
 
 
 import com.gbase.mode.*;
+import com.gbase.utils.JarUtils;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,7 +26,7 @@ public class Main {
                     break;
             }
         } else {
-            Mode5 mode2 = new Mode5();
+            Mode3 mode2 = new Mode3();
         }
     }
 }

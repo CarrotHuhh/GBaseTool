@@ -6,7 +6,7 @@ import java.sql.Connection;
 
 /**
  * @ClassName: Mode1.class
- * @Description: 本类用于测试客户端与集群连接是否正常
+ * @Description: 本类用于测试客户端与集群连接是否正常，程序将自动读取connection.properties文件中配置与数据库进行连接。
  */
 public class Mode1 {
     private ConnectionUtils connectionUtils;

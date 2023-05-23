@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * @ClassName: Mode2.class
+ * @Description: 本类用于测试所连接数据库对SQL语句的处理是否正常运行，用户可通过命令行中相关引导进行SQL语句的输入。
+ */
 public class Mode2 {
     private ConnectionUtils connectionUtils;
 

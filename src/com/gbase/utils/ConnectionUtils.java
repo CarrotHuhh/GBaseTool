@@ -11,34 +11,36 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionUtils {
+    public static final String PROPERTIES_PATH = "./resource/connection.properties";
+    public static final String EXTERNAL_JAR_PATH = "../jar";
     private Properties properties = new Properties();
     private String driver = null;
     private String url = null;
     private String user = null;
     private String password = null;
-    private String sql = null;
+    private String jarName = null;
+
+    public String getJarName() {
+        return jarName;
+    }
+
+    public void setJarName(String jarName) {
+        this.jarName = jarName;
+    }
 
     public void init() {
-        File file = new File("./resource/connection.properties");
+        File file = new File(PROPERTIES_PATH);
         try (InputStream inputStream = Files.newInputStream(file.toPath());
              InputStreamReader reader = new InputStreamReader(inputStream)) {
             this.properties.load(reader);
-            System.out.println("配置文件读取完毕");
             if (this.driver == null) {
                 this.driver = this.properties.getProperty("driver");
             }
-            this.sql = this.properties.getProperty("sql");
-            if (this.driver.equals("com.gbase.jdbc.Driver")) {
-                System.out.println("所选择驱动为GBase8a驱动，进行对应配置加载");
-                this.url = this.properties.getProperty("url-gbase");
-                this.user = this.properties.getProperty("user-gbase");
-                this.password = this.properties.getProperty("password-gbase");
-            } else if (this.driver.equals("com.mysql.cj.jdbc.Driver")) {
-                System.out.println("所选择驱动为MySQL驱动，进行对应配置加载");
-                this.url = this.properties.getProperty("url-mysql");
-                this.user = this.properties.getProperty("user-mysql");
-                this.password = this.properties.getProperty("password-mysql");
+            if (this.jarName == null) {
+                this.jarName = this.properties.getProperty("jarName");
             }
+            loadProperties();
+            System.out.println("配置文件读取完毕");
         } catch (IOException e) {
             System.out.println("读取配置文件失败");
             e.printStackTrace();
@@ -46,12 +48,15 @@ public class ConnectionUtils {
     }
 
     public Connection establishConnection() {
+        if (JarUtils.getAllJars().contains(this.jarName)) {
+            JarUtils.loadJar(this.jarName);
+        }
         try {
-            System.out.println("注册驱动成功");
             Class.forName(this.driver);
+            System.out.println("加载驱动成功");
         } catch (ClassNotFoundException e) {
-            System.out.println("注册驱动失败");
-            e.printStackTrace();
+            System.out.println("加载驱动失败");
+            throw new RuntimeException(e);
         }
         try {
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
@@ -62,14 +67,6 @@ public class ConnectionUtils {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public String getSql() {
-        return sql;
-    }
-
-    public void setSql(String sql) {
-        this.sql = sql;
     }
 
     public String getUrl() {
@@ -86,5 +83,14 @@ public class ConnectionUtils {
 
     public void setDriver(String driver) {
         this.driver = driver;
+    }
+
+    public void loadProperties() {
+        System.out.println(this.driver);
+        String driverName = this.driver.split("\\.")[1];
+        System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
+        this.url = this.properties.getProperty("url-" + driverName);
+        this.user = this.properties.getProperty("user-" + driverName);
+        this.password = this.properties.getProperty("password-" + driverName);
     }
 }
