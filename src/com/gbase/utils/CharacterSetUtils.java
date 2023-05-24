@@ -8,11 +8,14 @@ import java.util.List;
 
 import static com.gbase.utils.SqlUtils.*;
 
+/**
+ * @ClassName: CharacterSetUtils.class
+ * @Description: 本类中封装了用于若干个字符集编码检测相关的方法。
+ */
 public class CharacterSetUtils {
     /**
-     * 本方法用于查询数据库中字符集编码相关配置并进行打印
-     *
      * @param connection Connection，与数据库的连接
+     * @Description: 本方法用于查询数据库中字符集编码相关配置并进行打印
      */
     public static void getCharacterSetInCluster(Connection connection) {
         try (Statement stmt = connection.createStatement()) {
@@ -27,12 +30,11 @@ public class CharacterSetUtils {
     }
 
     /**
-     * 本方法根据指定的编码向数据库中的指定表插入模拟数据
-     *
      * @param connection Connection，与数据库的连接
      * @param code       String，要插入数据库中的文字编码类型
      * @param tableName  要进行插入测试的表名
      * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
+     * @Description: 本方法根据指定的编码向数据库中的指定表插入模拟数据
      */
     public static void insertChosenCode(Connection connection, String code, String tableName) throws SQLException {
         List<Pair<String, String>> list = getTableStructure(connection, tableName);

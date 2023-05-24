@@ -12,6 +12,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * @ClassName: ConnectionUtils.class
+ * @Description: 本类为连接配置类，封装了用户与数据库连接的相关配置以及常用方法。
+ */
 public class ConnectionUtils {
     //配置文件的相对路径
     public static final String PROPERTIES_PATH = "./connection.properties";
@@ -27,9 +31,8 @@ public class ConnectionUtils {
 
 
     /**
-     * 本方法用于创建ConnectionUtil对象之后的初始化工作，读取配置文件中的变量配置，为成员变量赋值
-     *
      * @throws Exception 由loadProperties抛出的LoadJarException异常，暂不做处理，留待具体业务流程处理
+     * @Description: 本方法用于创建ConnectionUtil对象之后的初始化工作，读取配置文件中的变量配置，为成员变量赋值
      */
     public void init() throws LoadJarException {
         File file = new File(PROPERTIES_PATH);
@@ -51,10 +54,9 @@ public class ConnectionUtils {
     }
 
     /**
-     * 本方法用于加载驱动以及创建与数据库的连接
-     *
      * @return Connection，与数据库的连接
      * @throws LoadJarException 加载驱动时可能抛出LoadJarException异常，暂不做处理，留待具体业务流程处理
+     * @Description: 本方法用于加载驱动以及创建与数据库的连接
      */
     public Connection establishConnection() throws LoadJarException {
         if (JarUtils.getAllJars().contains(this.jarName)) {
@@ -77,9 +79,8 @@ public class ConnectionUtils {
     }
 
     /**
-     * 本方法用于根据驱动类名加载配置文件中对应数据库的配置
-     *
      * @throws LoadJarException 抛出加载驱动包异常，暂不做处理，留待具体业务进行处理
+     * @Description: 本方法用于根据驱动类名加载配置文件中对应数据库的配置
      */
     public void loadProperties() throws LoadJarException {
         if (this.driver.split("\\.").length >= 2) {
