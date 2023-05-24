@@ -12,11 +12,7 @@ import java.util.Scanner;
 
 /**
  * @ClassName: Mode3.class
-<<<<<<< HEAD
- * @Description: 本类用于测试不同JDBC驱动在客户端能否顺利运行,并可在连接后测试不同SQL语句的运行情况。
-=======
  * @Description: 本类用于测试不同JDBC驱动在客户端能否顺利运行, 并可在连接后测试不同SQL语句的运行情况。
->>>>>>> refs/remotes/origin/main
  */
 public class Mode3 {
     private ConnectionUtils connectionUtils;

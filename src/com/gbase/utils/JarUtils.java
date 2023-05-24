@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JarUtils {
+    /**
+     * 本方法用于加载不在classpath中的某一个jar包
+     *
+     * @param jarName 要进行加载的jar包文件名
+     */
     public static void loadJar(String jarName) {
         jarName = ConnectionUtils.EXTERNAL_JAR_PATH + jarName;
         File jarFile = new File(jarName);
@@ -33,6 +38,11 @@ public class JarUtils {
         }
     }
 
+    /**
+     * 本方法用于查找jar包加载路径下所有的jar包，并将包名存于list中
+     *
+     * @return List<String>，返回jar包加载路径下的所有jar包名
+     */
     public static List<String> getAllJars() {
         List<String> list = new ArrayList<>();
         File libDir = new File(ConnectionUtils.EXTERNAL_JAR_PATH);

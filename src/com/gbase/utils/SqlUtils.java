@@ -8,11 +8,12 @@ import java.util.List;
 
 public class SqlUtils {
     /**
+     * 传入要进行查询的SQL语句，可返回查询结果集ResultSet
      *
-     * @param sql
-     * @param connection
-     * @return
-     * @throws SQLException
+     * @param sql        String，需要执行的SQL语句
+     * @param connection Connection，与数据库的连接
+     * @return ResultSet，包含执行传入的SQL查询语句后的结果
+     * @throws SQLException 查询语句可能出现的异常或其他SQL查询过程异常
      */
     public static ResultSet query(String sql, Connection connection) throws SQLException {
         try {
@@ -24,11 +25,12 @@ public class SqlUtils {
     }
 
     /**
+     * 传入要进行更新的SQL语句，返回数据库中的影响行数
      *
-     * @param sql
-     * @param connection
-     * @return
-     * @throws SQLException
+     * @param sql        String，需要执行的SQL语句
+     * @param connection Connection，与数据库的连接
+     * @return int，数据库更新行数
+     * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
      */
     public static int update(String sql, Connection connection) throws SQLException {
         try {
@@ -40,11 +42,12 @@ public class SqlUtils {
     }
 
     /**
+     * 传入执行插入的SQL语句，返回插入是否成功结果
      *
-     * @param sql
-     * @param connection
-     * @return
-     * @throws SQLException
+     * @param sql        String，需要执行的SQL语句
+     * @param connection Connection，与数据库的连接
+     * @return boolean，插入是否成功
+     * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
      */
     public static boolean insert(String sql, Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
@@ -55,48 +58,12 @@ public class SqlUtils {
         }
     }
 
-
     /**
+     * 本方法用于打印某一结果集的指定列数
      *
-     * @param connection
-     * @param code
-     * @param tableName
-     * @throws SQLException
-     */
-    public static void insertChosenCode(Connection connection, String code, String tableName) throws SQLException {
-        List<Pair<String, String>> list = getTableStructure(connection, tableName);
-        StringBuilder tmp_sql = new StringBuilder("insert into " + tableName + " value(");
-        for (int i = 0; i < list.size(); i++) {
-            if (i == list.size() - 1) {
-                tmp_sql.append("?)");
-            } else {
-                tmp_sql.append("?,");
-            }
-        }
-        try (PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql.toString())) {
-            for (int i = 1; i <= list.size(); i++) {
-                if (list.get(i - 1).getValue().equals("VARCHAR")) {
-                    preparedStatement.setBytes(i, "张三".getBytes(code));
-                } else {
-                    preparedStatement.setNull(i, Types.INTEGER);
-                }
-            }
-            preparedStatement.execute();
-            System.out.println("插入指定编码字段成功");
-            System.out.println("从数据库中查询插入的数据为：");
-            String result_sql = "select * from " + tableName + " order by id desc limit 1";
-            printResultSet(query(result_sql, connection), list.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("插入指定编码字段失败");
-        }
-    }
-
-    /**
-     *
-     * @param resultSet
-     * @param numOfColumn
-     * @throws SQLException
+     * @param resultSet   ResultSet，需要打印的SQL查询ResultSet结果
+     * @param numOfColumn int，打印的表的列数
+     * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
      */
     public static void printResultSet(ResultSet resultSet, int numOfColumn) throws SQLException {
         System.out.println("查询结果如下：");
@@ -113,9 +80,10 @@ public class SqlUtils {
     }
 
     /**
+     * 本方法用于获取某一条SQL语句中所要执行的表格名
      *
-     * @param sql
-     * @return
+     * @param sql String，要执行的SQL语句
+     * @return String，SQL语句中目标表格的表名
      */
     public static String getTableName(String sql) {
         String tableName = null;
@@ -139,11 +107,13 @@ public class SqlUtils {
     }
 
     /**
+     * 本方法用于获取某一表格的结构，获取每一列的字段名和字段类型，并存于List<Pair<String,String>>中，
+     * 每个键值对中key为字段名，value为字段类型
      *
-     * @param connection
-     * @param tableName
-     * @return
-     * @throws SQLException
+     * @param connection Connection，与数据库的连接
+     * @param tableName  String，表名
+     * @return List<Pair < String, String>>，List中存储了每一列的字段名和字段类型组合而成的键值对，每一个键值对在List中的序号对应他们的列序号
+     * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
      */
     public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) throws SQLException {
         String sql = "select * from " + tableName + " limit 0,1";
@@ -174,13 +144,13 @@ public class SqlUtils {
     }
 
     /**
-     *  对输入的SQL语句进行预处理
-     * @param sql
-     * @param connection
-     * @return
+     * 对输入的SQL语句进行预处理，根据SQL语句调用对应的SQL执行方法
+     *
+     * @param sql        String，需要执行的SQL语句
+     * @param connection Connection，与数据库的连接
      * @throws SQLException
      */
-    public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
+    public static void sqlPretreat(String sql, Connection connection) throws SQLException {
         String tableName = getTableName(sql);
         // 对输入的SQL语句进行识别
         String sub = sql.toLowerCase().split(" ")[0];

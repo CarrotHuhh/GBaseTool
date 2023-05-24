@@ -57,7 +57,7 @@ public class Mode5 {
                                 System.out.println("请输入要进行插入指定语句测试所使用的编码");
                                 String code = scanner.nextLine();
                                 try {
-                                    SqlUtils.insertChosenCode(connection, code, tableName);
+                                    CharacterSetUtils.insertChosenCode(connection, code, tableName);
                                     continue;
                                 } catch (SQLException e) {
                                     continue;

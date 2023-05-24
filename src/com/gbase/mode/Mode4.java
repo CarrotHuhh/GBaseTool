@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import static com.gbase.utils.CharacterSetUtils.insertChosenCode;
+
 /**
  * @ClassName: Mode4.class
  * @Description: 本类用于测试数据库对不同SQL语句的处理情况，以及字符集相关配置是否正常。
@@ -59,7 +61,7 @@ public class Mode4 {
                         System.out.println("请输入要进行插入指定语句测试所使用的编码");
                         String code = scanner.nextLine();
                         try {
-                            SqlUtils.insertChosenCode(connection, code, tableName);
+                            insertChosenCode(connection, code, tableName);
                             break;
                         } catch (SQLException e) {
                             continue;
