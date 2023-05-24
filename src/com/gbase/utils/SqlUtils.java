@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlUtils {
+    /**
+     *
+     * @param sql
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet query(String sql, Connection connection) throws SQLException {
         try {
             Statement statement = connection.createStatement();
@@ -16,6 +23,13 @@ public class SqlUtils {
         }
     }
 
+    /**
+     *
+     * @param sql
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
     public static int update(String sql, Connection connection) throws SQLException {
         try {
             Statement statement = connection.createStatement();
@@ -25,6 +39,13 @@ public class SqlUtils {
         }
     }
 
+    /**
+     *
+     * @param sql
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
     public static boolean insert(String sql, Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
@@ -35,6 +56,13 @@ public class SqlUtils {
     }
 
 
+    /**
+     *
+     * @param connection
+     * @param code
+     * @param tableName
+     * @throws SQLException
+     */
     public static void insertChosenCode(Connection connection, String code, String tableName) throws SQLException {
         List<Pair<String, String>> list = getTableStructure(connection, tableName);
         StringBuilder tmp_sql = new StringBuilder("insert into " + tableName + " value(");
@@ -64,6 +92,12 @@ public class SqlUtils {
         }
     }
 
+    /**
+     *
+     * @param resultSet
+     * @param numOfColumn
+     * @throws SQLException
+     */
     public static void printResultSet(ResultSet resultSet, int numOfColumn) throws SQLException {
         System.out.println("查询结果如下：");
         while (resultSet.next()) {
@@ -78,6 +112,11 @@ public class SqlUtils {
         }
     }
 
+    /**
+     *
+     * @param sql
+     * @return
+     */
     public static String getTableName(String sql) {
         String tableName = null;
         String[] strings = sql.toLowerCase().split(" ");
@@ -99,6 +138,13 @@ public class SqlUtils {
         return tableName;
     }
 
+    /**
+     *
+     * @param connection
+     * @param tableName
+     * @return
+     * @throws SQLException
+     */
     public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) throws SQLException {
         String sql = "select * from " + tableName + " limit 0,1";
         List<Pair<String, String>> list = new ArrayList<>();
@@ -127,26 +173,38 @@ public class SqlUtils {
         return null;
     }
 
-    public static void sqlPretreat(String sql, Connection connection) throws SQLException {
+    /**
+     *  对输入的SQL语句进行预处理
+     * @param sql
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
+    public static boolean sqlPretreat(String sql, Connection connection) throws SQLException {
         String tableName = getTableName(sql);
+        // 对输入的SQL语句进行识别
         String sub = sql.toLowerCase().split(" ")[0];
         switch (sub) {
             case "show":
             case "select":
             case "desc":
+                // 如果输入的 SQL 语句是 show、select 或 desc，则查询数据库并打印结果
                 if (tableName != null)
                     SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
                 else SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
             case "alter":
             case "insert":
+                // 如果输入的 SQL 语句是 alter 或 insert，则向数据库中修改数据
                 SqlUtils.insert(sql, connection);
             case "drop":
             case "create":
             case "delete":
             case "truncate":
             case "update":
+                // 如果输入的 SQL 语句是 drop、create、delete、truncate 或 update，则更新数据库中的数据
                 SqlUtils.update(sql, connection);
             default:
+                // 如果输入的 SQL 语句不是以上任何一种类型，则抛出异常
                 SQLException ex = new SQLException();
                 throw ex;
         }
