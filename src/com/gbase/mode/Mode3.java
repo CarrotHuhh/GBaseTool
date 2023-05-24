@@ -18,6 +18,7 @@ public class Mode3 {
     private ConnectionUtils connectionUtils;
 
     public Mode3() {
+        System.out.println("Mode3开始运行");
         connectionUtils = new ConnectionUtils();
         //命令行第一级页面，引导用户选择驱动
         label1:

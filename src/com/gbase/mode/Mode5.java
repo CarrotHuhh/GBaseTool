@@ -19,6 +19,7 @@ public class Mode5 {
     private ConnectionUtils connectionUtils;
 
     public Mode5() {
+        System.out.println("Mode5开始运行");
         connectionUtils = new ConnectionUtils();
         label1:
         while (true) {
@@ -77,6 +78,7 @@ public class Mode5 {
                                         SqlUtils.sqlPretreat(sql, connection);
                                         flag_tmp = false;
                                     } catch (SQLException e) {
+                                        e.printStackTrace();
                                         System.out.println("sql语句输入错误，请重新输入");
                                     }
                                 }

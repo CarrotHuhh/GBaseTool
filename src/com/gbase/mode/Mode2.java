@@ -15,6 +15,7 @@ public class Mode2 {
     private ConnectionUtils connectionUtils;
 
     public Mode2() {
+        System.out.println("Mode2开始运行");
         Scanner scanner = new Scanner(System.in);
         // 建立数据库连接
         connectionUtils = new ConnectionUtils();

@@ -13,6 +13,7 @@ public class Mode1 {
     private ConnectionUtils connectionUtils;
 
     public Mode1() {
+        System.out.println("Mode1开始运行");
         // 建立连接
         connectionUtils = new ConnectionUtils();
         try {

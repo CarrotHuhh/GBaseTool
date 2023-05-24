@@ -18,6 +18,7 @@ public class Mode4 {
     private ConnectionUtils connectionUtils;
 
     public Mode4() {
+        System.out.println("Mode4开始运行");
         connectionUtils = new ConnectionUtils();
         Scanner scanner = new Scanner(System.in);
         try {

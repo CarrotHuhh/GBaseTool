@@ -16,12 +16,8 @@ public class SqlUtils {
      * @throws SQLException 查询语句可能出现的异常或其他SQL查询过程异常
      */
     public static ResultSet query(String sql, Connection connection) throws SQLException {
-        try {
-            Statement statement = connection.createStatement();
-            return statement.executeQuery(sql);
-        } catch (SQLException e) {
-            throw e;
-        }
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(sql);
     }
 
     /**
@@ -33,11 +29,8 @@ public class SqlUtils {
      * @throws SQLException 执行SQL语句可能出现的异常或其他SQL过程异常
      */
     public static int update(String sql, Connection connection) throws SQLException {
-        try {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             return statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw e;
         }
     }
 
@@ -53,8 +46,6 @@ public class SqlUtils {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
             return true;
-        } catch (SQLException e) {
-            throw e;
         }
     }
 
@@ -162,10 +153,12 @@ public class SqlUtils {
                 if (tableName != null)
                     SqlUtils.printResultSet(SqlUtils.query(sql, connection), getTableStructure(connection, tableName).size());
                 else SqlUtils.printResultSet(SqlUtils.query(sql, connection), 1);
+                break;
             case "alter":
             case "insert":
                 // 如果输入的 SQL 语句是 alter 或 insert，则向数据库中修改数据
                 SqlUtils.insert(sql, connection);
+                break;
             case "drop":
             case "create":
             case "delete":
@@ -173,6 +166,7 @@ public class SqlUtils {
             case "update":
                 // 如果输入的 SQL 语句是 drop、create、delete、truncate 或 update，则更新数据库中的数据
                 SqlUtils.update(sql, connection);
+                break;
             default:
                 // 如果输入的 SQL 语句不是以上任何一种类型，则抛出异常
                 SQLException ex = new SQLException();
