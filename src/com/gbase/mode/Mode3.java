@@ -102,8 +102,8 @@ public class Mode3 {
     }
 
     /**
-     * @param str
-     * @return (boolean)返回str是否为数字串的布尔值。
+     * @param str 需要进行判断的字符串
+     * @return boolean, 返回str是否为数字串的布尔值。
      */
     public boolean isNumber(String str) {
         for (int i = str.length(); --i >= 0; ) {
