@@ -123,34 +123,23 @@ GBaseToolDemo
                 └── SqlUtils.java
 
 ```
-## 4.2 工具包目录结构
-```
-dist
-├── GbaseToolDemo.jar----------------可运行jar包
-├── README.md------------------------用户帮助文档
-├── connection.properties------------配置文件
-└── jar------------------------------jar包导入目录
-    ├── gbase-connector-java-9.5.0.1-build1-bin.jar
-    └── mysql-connector-java-8.0.28.jar
-
-```
 
 
-# 6. 工具目录结构说明
+# 5. 工具目录结构说明
 
 ```
 .
-├── GbaseToolDemo.jar----------------------工具主体
+├── GbaseToolDemo.jar----------------------工具主体可运行Jar包
 ├── README.md------------------------------说明文档
 ├── connection.properties------------------配置文件
-└── jar------------------------------------导入驱动Jcar包
+└── jar------------------------------------导入驱动Jar包目录
     ├── gbase-connector-java-9.5.0.1-build1-bin.jar
     └── mysql-connector-java-8.0.28.jar
 ```
 
-## 6.1 配置文件说明
+## 5.1 配置文件说明
 
-### 6.1.1配置文件示例
+### 5.1.1配置文件示例
 
 ```
 jarName=gbase-connector-java-9.5.0.1-build1-bin.jar
@@ -165,21 +154,21 @@ user-mysql=root
 password-mysql=123456
 ```
 
-### 6.1.2驱动文件配置
+### 5.1.2驱动文件配置
 
 在配置文件中，若要指定数据库所用驱动，需先将驱动jar包导入jar目录，并在jarName属性中指明jar包文件名以及在driver属性中指明驱动的类名。
 
-### 6.1.3数据库连接的登录配置
+### 5.1.3数据库连接的登录配置
 
 数据库连接时，需指定连接用url，用户名以及密码。配置参照示例文件：“属性-数据库名”，数据库名需与包名对应。例如url-gbase中的gbase与com.gbase.jdbc.Driver中的gbase对应。
 
-# 7.工具运行说明
+# 6.工具运行说明
 
-## 7.1模式说明
+## 6.1模式说明
 
 模式一、模式二、模式四中，在启动工具与与数据库建立连接前需在配置文件中指定驱动并完成登录配置；若进行模式三及模式五无需提前指定驱动，但需要完成登录配置。
 
-### 7.1.1模式一
+### 6.1.1模式一
 
 简单用于测试客户端与数据库连接的模式，可检测客户端与数据库连接是否正常。
 启动命令：
@@ -188,7 +177,7 @@ password-mysql=123456
 java -jar GbaseToolDemo.jar mode1
 ```
 
-### 7.1.2模式二
+### 6.1.2模式二
 
 用于检测数据库对不同SQL语句执行情况的模式，可检测数据库执行SQL语句是否正常。
 启动命令：
@@ -197,7 +186,7 @@ java -jar GbaseToolDemo.jar mode1
 java -jar GbaseToolDemo.jar mode2
 ```
 
-### 7.1.3模式三
+### 6.1.3模式三
 
 用于测试客户端切换驱动连接不同数据库，并检测数据库对不同SQL语句执行情况的模式，可检测数据库执行SQL语句是否正常以及客户端对不同数据库的连接是否正常。
 启动命令：
@@ -206,7 +195,7 @@ java -jar GbaseToolDemo.jar mode2
 java -jar GbaseToolDemo.jar mode3
 ```
 
-### 7.1.4模式四
+### 6.1.4模式四
 
 用于测试数据库对不同SQL语句的处理情况，以及字符集相关配置是否正常。
 启动命令：
@@ -215,7 +204,7 @@ java -jar GbaseToolDemo.jar mode3
 java -jar GbaseToolDemo.jar mode4
 ```
 
-### 7.1.5模式五
+### 6.1.5模式五
 
 本类集成了其他四个模式的测试，通过Mode5可覆盖连接、切换驱动、自定义SQL语句以及字符集配置情况。
 启动命令：
