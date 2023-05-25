@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GbaseToolDemo.iml" filepath="$PROJECT_DIR$/GbaseToolDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GbaseTool.iml" filepath="$PROJECT_DIR$/GbaseTool.iml" />
     </modules>
   </component>
 </project>

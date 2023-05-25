@@ -5,7 +5,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
       </element>
-      <element id="module-output" name="GbaseToolDemo" />
+      <element id="module-output" name="GbaseTool" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-8.0.28.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/gbase-connector-java-9.5.0.1-build1-bin.jar" path-in-jar="/" />
     </root>
