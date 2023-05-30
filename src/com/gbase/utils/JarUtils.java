@@ -1,5 +1,7 @@
 package com.gbase.utils;
 
+import com.gbase.Exceptions.LoadJarException;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -34,7 +36,7 @@ public class JarUtils {
      * @param jarName 要进行加载的jar包文件名
      * @Description: 本方法用于加载不在classpath中的某一个jar包
      */
-    public static void loadJar(String jarName) {
+    public static void loadJar(String jarName) throws LoadJarException {
         String jarPath = ConnectionUtils.EXTERNAL_JAR_PATH + jarName;
         File jarFile = new File(jarPath);
         // 从URLClassLoader类中获取类所在文件夹的方法，jar也可以认为是一个文件夹
@@ -53,7 +55,7 @@ public class JarUtils {
             URL url = jarFile.toURI().toURL();
             method.invoke(classLoader, url);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new LoadJarException();
         } finally {
             method.setAccessible(accessible);
         }

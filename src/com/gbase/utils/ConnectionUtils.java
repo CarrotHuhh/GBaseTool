@@ -18,9 +18,9 @@ import java.util.Properties;
  */
 public class ConnectionUtils {
     //配置文件的相对路径
-    public static final String PROPERTIES_PATH = "dist/connection.properties";
+    public static final String PROPERTIES_PATH = "connection.properties";
     //导入jar包目录的相对路径
-    public static final String EXTERNAL_JAR_PATH = "dist/jar/";
+    public static final String EXTERNAL_JAR_PATH = "jar/";
     private String driver = null;
     private String url = null;
     private String user = null;
@@ -47,9 +47,9 @@ public class ConnectionUtils {
                 this.driver = this.properties.getProperty("driver");
             }
             loadProperties();
-            System.out.println("配置文件读取完毕");
+            System.out.println("-------------------配置文件读取完毕-------------------");
         } catch (IOException e) {
-            System.out.println("读取配置文件失败");
+            System.err.println("读取配置文件失败");
             e.printStackTrace();
         }
     }
@@ -65,16 +65,17 @@ public class ConnectionUtils {
         }
         try {
             Class.forName(this.driver);
-            System.out.println("加载驱动成功");
+            System.out.println("--------------------加载驱动成功---------------------");
         } catch (ClassNotFoundException e) {
             throw new LoadJarException();
         }
         try {
             Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
-            System.out.println("创建连接成功");
+            System.out.println("--------------------创建连接成功---------------------");
+            System.out.println();
             return connection;
         } catch (SQLException e) {
-            System.out.println("创建连接失败");
+            System.err.println("创建连接失败");
             return null;
         }
     }

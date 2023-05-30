@@ -16,7 +16,8 @@ public class Mode2 {
     private ConnectionUtils connectionUtils;
 
     public Mode2() {
-        System.out.println("Mode4开始运行");
+        System.out.println("-----------------------Mode2-----------------------");
+        System.out.println();
         connectionUtils = new ConnectionUtils();
         Scanner scanner = new Scanner(System.in);
         try {
@@ -26,28 +27,31 @@ public class Mode2 {
         }
         try (Connection connection = connectionUtils.establishConnection()) {
             //进入测试模式一级界面，引导用户进行测试模式选择
-            label:
+            label1:
             while (connection != null) {
-                System.out.println("请输入1进行sql测试，请输入2进行字符集测试，输入0退出程序：");
+                System.out.println("----1.进行sql测试----2.进行字符集测试----0.退出程序----");
+                System.out.print("请输入所选择操作前的序号：");
                 String sqlInput = scanner.nextLine();
+                System.out.println();
                 switch (sqlInput) {
                     case "0":
-                        break;
+                        break label1;
                     //进行SQL测试，使用flag_tmp标记是否继续循环，flag_tmp在SQL语句执行完成后失效，循环退出
                     case "1":
                         boolean flag_tmp = true;
+                        label2:
                         while (flag_tmp) {
                             System.out.println("请输入要执行的SQl语句，输入0退出程序：");
                             String sql = scanner.nextLine();
+                            System.out.println();
                             if (sql.equals("0")) {
-                                break label;
+                                break label1;
                             }
-                            System.out.println("所执行SQL语句为：" + sql);
                             try {
                                 SqlUtils.sqlPretreat(sql, connection);
                                 flag_tmp = false;
                             } catch (SQLException e) {
-                                System.out.println("sql语句输入错误，请重新输入");
+                                System.err.println("sql语句输入错误，请重新输入");
                             }
                         }
                         System.out.println();
@@ -57,21 +61,24 @@ public class Mode2 {
                         CharacterSetUtils.getCharacterSetInCluster(connection);
                         System.out.println("请输入要进行插入指定编码语句测试的表名");
                         String tableName = scanner.nextLine();
+                        System.out.println();
                         System.out.println("请输入要进行插入指定语句测试所使用的编码");
                         String code = scanner.nextLine();
+                        System.out.println();
                         try {
                             CharacterSetUtils.insertChosenCode(connection, code, tableName);
                             continue;
                         } catch (SQLException e) {
+                            System.err.println("返回上级菜单");
                             continue;
                         }
                     default:
-                        System.out.println("指令输入错误，请重新输入，输入1进行sql测试,输入0退出程序：");
-                        break;
+                        System.err.println("指令输入错误，请重新输入");
+                        continue;
                 }
             }
         } catch (Exception e) {
-            System.out.println("连接出现异常，Mode4测试结束，请检查登录配置");
+            System.err.println("连接出现异常，Mode4测试结束，请检查登录配置");
             e.printStackTrace();
             scanner.close();
         }

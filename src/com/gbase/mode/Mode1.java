@@ -13,7 +13,8 @@ public class Mode1 {
     private ConnectionUtils connectionUtils;
 
     public Mode1() {
-        System.out.println("Mode1开始运行");
+        System.out.println("----------------Mode2-----------------");
+        System.out.println();
         // 建立连接
         connectionUtils = new ConnectionUtils();
         try {
@@ -25,7 +26,7 @@ public class Mode1 {
         try (Connection connection = connectionUtils.establishConnection()) {
             // 测试数据库连接
             if (connection != null)
-                System.out.println("连接正常，Mode1测试完毕");
+                System.out.println("---------连接正常，Mode1测试完毕---------");
         } catch (Exception e) {
             // 捕获连接异常并输出提示信息
             System.out.println("连接出现异常，Mode1测试完毕，请检查登录配置");

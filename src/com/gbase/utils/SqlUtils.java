@@ -125,8 +125,8 @@ public class SqlUtils {
                 System.out.println("-------------------------");
                 return list;
             } catch (SQLException e) {
-                System.out.println("获取表结构失败");
-                throw e;
+                System.err.println("获取表结构失败");
+                throw new SQLException();
             }
         }
         return null;

@@ -22,9 +22,20 @@ public class CharacterSetUtils {
         try (Statement stmt = connection.createStatement()) {
             HashMap<String, String> map = new HashMap<>();
             ResultSet resultSet = stmt.executeQuery("show variables like '%character_set%'");
+            System.out.println("+------------------------------------+");
+            System.out.println("|         数据库字符集编码配置          |");
+            System.out.println("+------------------------------------+");
             while (resultSet.next()) {
-                System.out.println(resultSet.getString(1) + ": " + resultSet.getString(2));
+                if (resultSet.getString(2).length() < 10) {
+                    System.out.print("|");
+                    System.out.printf("%-26s", resultSet.getString(1));
+                    System.out.printf("|");
+                    System.out.printf("%-9s", resultSet.getString(2));
+                    System.out.print("|");
+                    System.out.println();
+                }
             }
+            System.out.println("+------------------------------------+");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +49,12 @@ public class CharacterSetUtils {
      * @Description: 本方法根据指定的编码向数据库中的指定表插入模拟数据
      */
     public static void insertChosenCode(Connection connection, String code, String tableName) throws SQLException {
-        List<Pair<String, String>> list = getTableStructure(connection, tableName);
+        List<Pair<String, String>> list = null;
+        try {
+            list = getTableStructure(connection, tableName);
+        }catch (Exception e){
+            throw new SQLException();
+        }
         StringBuilder tmp_sql = new StringBuilder("insert into " + tableName + " value(");
         for (int i = 0; i < list.size(); i++) {
             if (i == list.size() - 1) {
@@ -72,7 +88,7 @@ public class CharacterSetUtils {
             }
             preparedStatement.execute();
             System.out.println("插入指定编码字段成功");
-            System.out.println("从数据库中查询插入的数据为：");
+            System.out.print("对插入数据库中数据查询结果");
             String result_sql = "";
             if (pair1.getValue() != null && pair2.getValue() != null) {
                 result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
@@ -81,8 +97,7 @@ public class CharacterSetUtils {
             }
             printResultSet(query(result_sql, connection), list.size());
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("插入指定编码字段失败");
+            System.err.println("Exception: " + e.getMessage());
         }
     }
 }
