@@ -18,9 +18,9 @@ import java.util.Properties;
  */
 public class ConnectionUtils {
     //配置文件的相对路径
-    public static final String PROPERTIES_PATH = "./connection.properties";
+    public static final String PROPERTIES_PATH = "dist/connection.properties";
     //导入jar包目录的相对路径
-    public static final String EXTERNAL_JAR_PATH = "./jar/";
+    public static final String EXTERNAL_JAR_PATH = "dist/jar/";
     private String driver = null;
     private String url = null;
     private String user = null;
@@ -39,11 +39,12 @@ public class ConnectionUtils {
         try (InputStream inputStream = Files.newInputStream(file.toPath());
              InputStreamReader reader = new InputStreamReader(inputStream)) {
             this.properties.load(reader);
-            if (this.driver == null) {
-                this.driver = this.properties.getProperty("driver");
-            }
             if (this.jarName == null) {
                 this.jarName = this.properties.getProperty("jarName");
+            }
+            this.driver = JarUtils.getJDBCDriverContents().get(this.jarName.split("-")[0]);
+            if (this.driver == null) {
+                this.driver = this.properties.getProperty("driver");
             }
             loadProperties();
             System.out.println("配置文件读取完毕");

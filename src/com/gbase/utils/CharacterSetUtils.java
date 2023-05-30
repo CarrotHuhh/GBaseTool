@@ -5,6 +5,7 @@ import javafx.util.Pair;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import static com.gbase.utils.SqlUtils.*;
 
@@ -47,9 +48,24 @@ public class CharacterSetUtils {
             }
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql.toString())) {
+            Pair<String, String> pair1 = null;
+            Pair<String, String> pair2 = null;
+            int pairNum = 1;
             for (int i = 1; i <= list.size(); i++) {
                 if (list.get(i - 1).getValue().equals("VARCHAR")) {
-                    preparedStatement.setBytes(i, "张三".getBytes(code));
+                    String columnName = list.get(i - 1).getKey();
+                    String columnType = list.get(i - 1).getValue();
+                    System.out.println("请输入列" + columnName + "(" + columnType + ")" + "所要插入的值：");
+                    Scanner scanner = new Scanner(System.in);
+                    String content = scanner.nextLine();
+                    preparedStatement.setBytes(i, content.getBytes(code));
+                    if (pairNum == 1) {
+                        pair1 = new Pair<>(columnName, content);
+                    }
+                    if (pairNum == 2) {
+                        pair2 = new Pair<>(columnName, content);
+                    }
+                    pairNum++;
                 } else {
                     preparedStatement.setNull(i, Types.INTEGER);
                 }
@@ -57,7 +73,12 @@ public class CharacterSetUtils {
             preparedStatement.execute();
             System.out.println("插入指定编码字段成功");
             System.out.println("从数据库中查询插入的数据为：");
-            String result_sql = "select * from " + tableName + " order by id desc limit 1";
+            String result_sql = "";
+            if (pair1.getValue() != null && pair2.getValue() != null) {
+                result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
+            } else {
+                result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "'";
+            }
             printResultSet(query(result_sql, connection), list.size());
         } catch (Exception e) {
             e.printStackTrace();

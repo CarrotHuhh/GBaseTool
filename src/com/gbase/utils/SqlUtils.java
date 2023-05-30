@@ -105,7 +105,7 @@ public class SqlUtils {
      * 每个键值对中key为字段名，value为字段类型
      */
     public static List<Pair<String, String>> getTableStructure(Connection connection, String tableName) throws SQLException {
-        String sql = "select * from " + tableName + " limit 0,1";
+        String sql = "select * from " + tableName + " limit 1";
         List<Pair<String, String>> list = new ArrayList<>();
         if (connection != null) {
             try (Statement statement = connection.createStatement()) {

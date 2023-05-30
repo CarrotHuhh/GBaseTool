@@ -1,6 +1,7 @@
 package com.gbase.mode;
 
 import com.gbase.Exceptions.LoadJarException;
+import com.gbase.utils.CharacterSetUtils;
 import com.gbase.utils.ConnectionUtils;
 import com.gbase.utils.JarUtils;
 import com.gbase.utils.SqlUtils;
@@ -11,34 +12,30 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @ClassName: Mode3.class
- * @Description: 本类用于测试不同JDBC驱动在客户端能否顺利运行, 并可在连接后测试不同SQL语句的运行情况。
+ * @ClassName: Mode5.class
+ * @Description: 本类集成了其他四个模式的测试，通过Mode5可覆盖连接、切换驱动、自定义SQL语句以及字符集配置情况。
  */
 public class Mode3 {
     private ConnectionUtils connectionUtils;
 
     public Mode3() {
-        System.out.println("Mode3开始运行");
+        System.out.println("Mode5开始运行");
         connectionUtils = new ConnectionUtils();
-        //命令行第一级页面，引导用户选择驱动
         label1:
         while (true) {
-            System.out.println("Mode3测试开始，请从以下支持的JDBC驱动中选择所使用的驱动序号，退出请输入0：");
+            System.out.println("Mode5测试开始，输入以下驱动前的数字导入程序中自带的数据库驱动，退出请输入0：");
             List<String> jars = JarUtils.getAllJars();
             for (int i = 0; i < jars.size(); i++) {
                 System.out.println(i + 1 + ". " + jars.get(i));
             }
-            System.out.println();
             Scanner scanner = new Scanner(System.in);
             String jarsInput = scanner.nextLine();
             if (jarsInput.equals("0")) {
                 scanner.close();
                 break label1;
+                //判断输入是否合法，需要满足为数字串且大小在扫描到的驱动数量内
             } else if (isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
                 connectionUtils.setJarName(jars.get(Integer.valueOf(jarsInput) - 1));
-                System.out.println("请输入驱动类名：");
-                String driverInput = scanner.nextLine();
-                connectionUtils.setDriver(driverInput);
                 try {
                     connectionUtils.init();
                 } catch (Exception e) {
@@ -46,51 +43,58 @@ public class Mode3 {
                     continue;
                 }
                 try (Connection connection = connectionUtils.establishConnection()) {
-                    //命令行二级页面，引导用户进行测试模式选择
                     label2:
                     while (connection != null) {
-                        System.out.println("该驱动连接数据库成功，输入1进行sql测试，输入2返回切换驱动连接测试，输入0退出程序：");
+                        System.out.println("该驱动连接数据库成功，输入1进行字符集测试，输入2进行sql测试，输入3返回切换驱动连接测试，输入0退出程序：");
                         String sqlInput = scanner.nextLine();
                         switch (sqlInput) {
-                            //直接退出label2循环
-                            case "0":
-                                break label1;
-                            //进行SQL测试，使用flag_tmp标记是否继续循环，flag_tmp在SQL语句执行完成后失效，循环退出
                             case "1":
+                                CharacterSetUtils.getCharacterSetInCluster(connection);
+                                System.out.println("请输入要进行插入指定编码语句测试的表名：");
+                                String tableName = scanner.nextLine();
+                                System.out.println("请输入要进行插入指定语句测试所使用的编码：");
+                                String code = scanner.nextLine();
+                                try {
+                                    CharacterSetUtils.insertChosenCode(connection, code, tableName);
+                                    continue;
+                                } catch (SQLException e) {
+                                    continue;
+                                }
+                            case "2":
                                 boolean flag_tmp = true;
                                 while (flag_tmp) {
-                                    System.out.println("请输入要执行的SQl语句,或输入1返回切换驱动连接测试，输入0退出程序：");
+                                    System.out.println("请输入要执行的SQl语句,或输入2返回切换驱动连接测试，输入0退出程序：");
                                     String sql = scanner.nextLine();
-                                    if (sql.equals("0")) {
-                                        break label1;
-                                    } else if (sql.equals("1")) {
+                                    if (sql.equals("2")) {
                                         break label2;
+                                    } else if (sql.equals("0")) {
+                                        break label1;
                                     }
                                     System.out.println("所执行SQL语句为：" + sql);
                                     try {
-                                        //调用sqlPretr()执行SQL语句，若SQL执行成功则try语句块顺利完成，
-                                        // 将给flag_tmp赋值false，使SQL测试循环退出，否则再次循环使用户能重新输入SQL语句
                                         SqlUtils.sqlPretreat(sql, connection);
                                         flag_tmp = false;
                                     } catch (SQLException e) {
+                                        e.printStackTrace();
                                         System.out.println("sql语句输入错误，请重新输入");
                                     }
                                 }
                                 System.out.println();
-                                break;
-                            //结束SQL测试，返回上级页面进行驱动选择
-                            case "2":
+                                continue;
+                            case "3":
                                 break label2;
+                            case "0":
+                                connection.close();
+                                break label1;
                             default:
-                                System.out.println("指令输入错误，请重新输入，输入sqltest进行sql测试，输入back返回切换驱动连接测试，输入quit退出程序：");
+                                System.out.println("指令输入错误，请重新输入");
                         }
                     }
                 } catch (Exception e) {
-                    //判断异常种类，若为驱动加载问题而非连接问题则返回驱动选择界面
                     if (e instanceof LoadJarException) {
                         continue;
                     }
-                    System.out.println("连接出现异常，Mode3测试结束，请检查登录配置");
+                    System.out.println("连接出现异常，Mode5测试结束，请检查登录配置");
                     e.printStackTrace();
                     scanner.close();
                     break label1;
@@ -102,7 +106,7 @@ public class Mode3 {
     }
 
     /**
-     * @param str 需要进行判断的字符串
+     * @param str String, 需要进行判断的字符串
      * @return boolean, 返回str是否为数字串的布尔值。
      */
     public boolean isNumber(String str) {
