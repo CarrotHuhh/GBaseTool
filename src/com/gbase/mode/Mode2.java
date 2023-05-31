@@ -37,7 +37,7 @@ public class Mode2 {
                 scanner.close();
                 break label1;
                 //判断输入是否合法，需要满足为数字串且大小在扫描到的驱动数量内
-            } else if (!jarsInput.equals("")&&ConnectionUtils.isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
+            } else if (!jarsInput.equals("") && ConnectionUtils.isNumber(jarsInput) && Integer.valueOf(jarsInput) <= jars.size() && Integer.valueOf(jarsInput) > 0) {
                 connectionUtils.setJarName(jars.get(Integer.valueOf(jarsInput) - 1));
                 try {
                     connectionUtils.init();
@@ -58,7 +58,7 @@ public class Mode2 {
                                 String tableName = scanner.nextLine();
                                 System.out.println();
                                 CharacterSetUtils.getCharacterSetInCluster(connection);
-                                CharacterSetUtils.getCharacterSetInTable(connection,tableName);
+                                CharacterSetUtils.getCharacterSetInTable(connection, tableName);
                                 System.out.println("请输入要进行插入指定语句测试所使用的编码：");
                                 String code = scanner.nextLine();
                                 System.out.println();

@@ -116,13 +116,6 @@ public class SqlUtils {
                     Pair<String, String> pair = new Pair<>(resultSetMetaData.getColumnName(i), resultSetMetaData.getColumnTypeName(i));
                     list.add(pair);
                 }
-                System.out.println("所要操作表结构为：");
-                System.out.println("-------------------------");
-                System.out.println("列数-----字段名-----字段类型");
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println(i + 1 + "---------" + list.get(i).getKey() + "-----" + list.get(i).getValue());
-                }
-                System.out.println("-------------------------");
                 return list;
             } catch (SQLException e) {
                 System.err.println("获取表结构失败");

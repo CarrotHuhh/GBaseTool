@@ -1,0 +1,25 @@
+GBase Tool使用帮助
+
+1. 工具目录结构说明
+. ├── GbaseTool.jar ├── 使用帮助.md ├── connection.properties └── jar--------------------存放驱动jar包路径     ├── gbase-connector-java-9.5.0.1-build1-bin.jar     ├── mysql-connector-java-8.0.28.jar     └── postgresql-42.6.0.jar
+
+2. 配置文件说明
+2.1 配置文件示例
+
+#gbase相关配置 url-gbase=jdbc:gbase://172.16.34.20:5258/db1?vcName=vc1 user-gbase=gbase password-gbase=123456 #mysql相关配置 url-mysql=jdbc:mysql://localhost:3306/db1? user-mysql=root password-mysql=123456
+
+2.2驱动文件配置
+ 在配置文件中，若要指定数据库所用驱动，需先将驱动jar包导入jar目录，程序在启动后会自动扫描jar目录下所有jar包，并列出供用户选择需要使用的驱动jar。
+
+2.3数据库连接的登录配置
+ 数据库连接时，需指定连接用url，用户名以及密码。配置参照示例文件：“属性-数据库产品名”，数据库名需与包名对应。例如url-gbase中的gbase与com.gbase.jdbc.Driver中的gbase对应。
+
+3.工具运行模式说明
+
+3.1模式一
+ 简单用于测试客户端与数据库连接的模式，可检测客户端与数据库连接是否正常。 启动命令：
+java -jar GbaseToolDemo.jar mode1
+
+3.2模式二
+ 本类集成了四种需求的测试，通过Mode2可覆盖连接测试、切换驱动测试、自定义SQL语句测试以及字符集配置测试。 启动命令：
+java -jar GbaseToolDemo.jar mode2

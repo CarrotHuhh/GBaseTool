@@ -62,8 +62,8 @@ public class JarUtils {
     }
 
     /**
-     *
      * @return Map<String, String> HashMap中key为数据库产品名，value为驱动类名
+     * @Description: 该方法获取了指定路径下所有JDBC驱动jar中所存储的驱动类包名信息
      */
     public static Map<String, String> getJDBCDriverContents() {
         Map<String, String> map = new HashMap<>();
@@ -78,7 +78,7 @@ public class JarUtils {
                     urls[i] = files[i].toURI().toURL();
                 }
                 URLClassLoader classLoader = new URLClassLoader(urls);
-                // 使用URLClassLoader加载驱动类
+                // 使用ServiceLoader加载驱动类
                 ServiceLoader<Driver> drivers = ServiceLoader.load(java.sql.Driver.class, classLoader);
                 // 遍历每个驱动类并获取其内容
                 for (java.sql.Driver driver : drivers) {

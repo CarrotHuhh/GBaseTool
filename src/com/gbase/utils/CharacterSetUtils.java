@@ -21,7 +21,7 @@ public class CharacterSetUtils {
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery("show variables like '%character_set%'");
             System.out.println("+------------------------------------+");
-            System.out.println("|         数据库字符集编码配置        |");
+            System.out.println("|        数据库字符集编码配置        |");
             System.out.println("+------------------------------------+");
             while (resultSet.next()) {
                 if (resultSet.getString(2).length() < 10) {
@@ -39,6 +39,11 @@ public class CharacterSetUtils {
         }
     }
 
+    /**
+     * @param connection Connection，与数据库的连接
+     * @param tableName  String,要查询的表名
+     * @Description: 本方法用于查询某个表中字符集编码相关配置以及表格结构并进行打印
+     */
     public static void getCharacterSetInTable(Connection connection, String tableName) {
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery("show full columns from " + tableName);
@@ -129,7 +134,7 @@ public class CharacterSetUtils {
             } catch (Exception e) {
                 System.err.println("查询失败，数据库字符编码或该表格字符集编码可能与本次插入数据所使用编码不符，现输出该表格所有内容：");
                 Statement statement = connection.createStatement();
-                printResultSet(statement.executeQuery("select * from " + tableName),SqlUtils.getTableStructure(connection,tableName).size());
+                printResultSet(statement.executeQuery("select * from " + tableName), SqlUtils.getTableStructure(connection, tableName).size());
                 throw new Exception();
             }
         } catch (Exception e) {
