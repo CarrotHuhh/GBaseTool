@@ -48,7 +48,7 @@ public class CharacterSetUtils {
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery("show full columns from " + tableName);
             System.out.println("+------------------------------------------------+");
-            System.out.println("|                表格字符集编码配置              |");
+            System.out.println("|                  表格字符集编码配置                |");
             System.out.println("+------------------------------------------------+");
             while (resultSet.next()) {
                 if (resultSet.getString(2).length() < 16) {
@@ -57,7 +57,7 @@ public class CharacterSetUtils {
                     System.out.printf("|");
                     System.out.printf("%-14s", resultSet.getString(2));
                     System.out.print("|");
-                    System.out.printf("%-16s", resultSet.getString(3));
+                    System.out.printf("%-20s", resultSet.getString(3));
                     System.out.print("|");
                     System.out.println();
                 }
