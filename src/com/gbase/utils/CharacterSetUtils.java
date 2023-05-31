@@ -90,7 +90,7 @@ public class CharacterSetUtils {
             System.out.println("插入指定编码字段成功");
             System.out.print("对插入数据库中数据查询结果");
             String result_sql = "";
-            if (pair1.getValue() != null && pair2.getValue() != null) {
+            if (pair1!= null && pair2!= null) {
                 result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
             } else {
                 result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "'";
