@@ -39,13 +39,7 @@ public class ConnectionUtils {
         try (InputStream inputStream = Files.newInputStream(file.toPath());
              InputStreamReader reader = new InputStreamReader(inputStream)) {
             this.properties.load(reader);
-            if (this.jarName == null) {
-                this.jarName = this.properties.getProperty("jarName");
-            }
             this.driver = JarUtils.getJDBCDriverContents().get(this.jarName.split("-")[0]);
-            if (this.driver == null) {
-                this.driver = this.properties.getProperty("driver");
-            }
             loadProperties();
             System.out.println("-------------------配置文件读取完毕-------------------");
         } catch (IOException e) {
@@ -92,6 +86,19 @@ public class ConnectionUtils {
             this.user = this.properties.getProperty("user-" + driverName);
             this.password = this.properties.getProperty("password-" + driverName);
         } else throw new LoadJarException();
+    }
+
+    /**
+     * @param str String, 需要进行判断的字符串
+     * @return boolean, 返回str是否为数字串的布尔值。
+     */
+    public static boolean isNumber(String str) {
+        for (int i = str.length(); --i >= 0; ) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getUrl() {

@@ -3,7 +3,6 @@ package com.gbase;
 
 import com.gbase.mode.Mode1;
 import com.gbase.mode.Mode2;
-import com.gbase.mode.Mode3;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,9 +14,6 @@ public class Main {
                     break;
                 case "mode2":
                     Mode2 mode2 = new Mode2();
-                    break;
-                case "mode3":
-                    Mode3 mode3 = new Mode3();
                     break;
             }
         } else {
