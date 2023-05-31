@@ -119,7 +119,7 @@ public class CharacterSetUtils {
                 throw new Exception("插入失败");
             }
             System.out.println("插入指定编码字段成功");
-            System.out.print("对插入数据库中数据查询结果");
+            System.out.print("对插入数据库中数据");
             String result_sql = "";
             try {
                 if (pair1 != null && pair2 != null) {
