@@ -2,7 +2,7 @@
 
 # 1. 项目目标
 
-​		开发一个Java命令行工具，用以确定用户使用Gbase集群过程中错误的发生位置。实现连接排查、字符集排查、切换驱动连接测试以及自定义SQL语句查询测试等功能。对于不同的测试需求，通过指定参数的方式选择不同的模式进行测试。
+​		开发一个Java命令行工具，用以确定用户使用Gbase集群过程中错误的发生位置。实现连接状态排查、字符集配置排查、切换驱动连接测试以及自定义SQL语句查询测试等功能。对于不同的测试需求，通过指定参数的方式选择不同的模式进行测试。
 
 # 2. 项目需求分析
 
@@ -14,7 +14,7 @@
 
 ### 2.2.1 用例图
 
-<img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E7%94%A8%E4%BE%8B%E5%9B%BE-%E5%AF%BC%E5%87%BA.png" style="zoom:60%">
+<img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E7%94%A8%E4%BE%8B%E5%9B%BE-%E5%AF%BC%E5%87%BA.png" style="zoom:50%">
 
 ### 2.2.2 用例规约
 
@@ -37,9 +37,9 @@
 
 ### 2.3.2 字符集排查
 
-​		对于用户字符集问题的排查，需要先读取下图中关于集群如下选项的字符集配置，后在终端中显式输出这些配置。为了确认数据库端运行正常，在输出数据库字符集编码配置之后，向数据库中插入对应编码字符，并在进行查询之后输出至终端，以进行比对。
+​		对于用户字符集问题的排查，需要先读取下图中关于集群如下选项的字符集配置以及表的字符集配置，后在终端中显式输出这些配置。为了确认数据库端运行正常，在输出数据库字符集编码配置之后，向数据库中插入对应编码字符，并在进行查询之后输出至终端，以进行比对。
 
-   <center><img src = "https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E6%88%AA%E5%B1%8F2023-05-12%2014.19.58.jpg" style="zoom:50%"/></center>
+   <center><img src = "https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E6%88%AA%E5%B1%8F2023-05-12%2014.19.58.jpg" style="zoom:20%"/><img src = "https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E6%88%AA%E5%B1%8F2023-05-31%2011.06.01.jpg" style="zoom:45%"/></center>
 
 <div style="text-align: center;">图 2-1</div>
 
@@ -55,14 +55,16 @@
 
 ## 3.1 UML时序图
 
-### 3.1.1 Mode5时序图
+### 3.1.1 全流程时序图
 
 <center><img src="https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/00.png" style="zoom:60%"/></center>
 <div style="text-align: center;">图 3-1</div>
 
 ## 3.2 UML类图
 
-![类图](https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/%E7%B1%BB%E5%9B%BE.png)
+![6031685502402_.pic](https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/6031685502402_.pic.jpg)
+
+<div style="text-align: center;">图 3-2</div>
 
 ## 3.3 测试模式
 
@@ -70,7 +72,9 @@
 
 读取配置文件配置->尝试连接->返回连接结果->完成
 
-![1](https://github.com/CarrotHuhh/Pics/blob/main/img/1.png?raw=true)
+![6021685502368_.pic](https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/6021685502368_.pic.jpg)
+
+<div style="text-align: center;">图 3-3</div>
 
 ### 模式二：测试连接与sql语句执行正常
 
@@ -78,6 +82,8 @@
 执行sql查询插入数据->返回终端进行比对->完成
 
 ![5](https://cdn.jsdelivr.net/gh/CarrotHuhh/Pics@main/img/5.png)
+
+<div style="text-align: center;">图 3-4</div>
 
 ## 3.4 打包方式以及项目运行方式
 
@@ -118,7 +124,7 @@ GBaseTool
 ├── GbaseTool.jar
 ├── README.md
 ├── connection.properties
-└── jar--------------------存放jar包路径
+└── jar--------------------存放驱动jar包路径
     ├── gbase-connector-java-9.5.0.1-build1-bin.jar
     ├── mysql-connector-java-8.0.28.jar
     └── postgresql-42.6.0.jar

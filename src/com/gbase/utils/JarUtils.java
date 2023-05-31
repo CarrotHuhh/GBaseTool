@@ -61,14 +61,15 @@ public class JarUtils {
         }
     }
 
+    /**
+     *
+     * @return Map<String, String> HashMap中key为数据库产品名，value为驱动类名
+     */
     public static Map<String, String> getJDBCDriverContents() {
         Map<String, String> map = new HashMap<>();
-        String directoryPath = ConnectionUtils.EXTERNAL_JAR_PATH;
-        File directory = new File(directoryPath);
-
+        File directory = new File(ConnectionUtils.EXTERNAL_JAR_PATH);
         // 获取目录下的所有JAR文件
         File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
-
         if (files != null) {
             try {
                 // 创建一个URLClassLoader来加载JAR文件

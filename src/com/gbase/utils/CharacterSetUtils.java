@@ -3,7 +3,6 @@ package com.gbase.utils;
 import javafx.util.Pair;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,10 +19,9 @@ public class CharacterSetUtils {
      */
     public static void getCharacterSetInCluster(Connection connection) {
         try (Statement stmt = connection.createStatement()) {
-            HashMap<String, String> map = new HashMap<>();
             ResultSet resultSet = stmt.executeQuery("show variables like '%character_set%'");
             System.out.println("+------------------------------------+");
-            System.out.println("|         数据库字符集编码配置          |");
+            System.out.println("|         数据库字符集编码配置        |");
             System.out.println("+------------------------------------+");
             while (resultSet.next()) {
                 if (resultSet.getString(2).length() < 10) {
@@ -41,6 +39,30 @@ public class CharacterSetUtils {
         }
     }
 
+    public static void getCharacterSetInTable(Connection connection, String tableName) {
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery("show full columns from " + tableName);
+            System.out.println("+------------------------------------------------+");
+            System.out.println("|                表格字符集编码配置              |");
+            System.out.println("+------------------------------------------------+");
+            while (resultSet.next()) {
+                if (resultSet.getString(2).length() < 16) {
+                    System.out.print("|");
+                    System.out.printf("%-16s", resultSet.getString(1));
+                    System.out.printf("|");
+                    System.out.printf("%-14s", resultSet.getString(2));
+                    System.out.print("|");
+                    System.out.printf("%-16s", resultSet.getString(3));
+                    System.out.print("|");
+                    System.out.println();
+                }
+            }
+            System.out.println("+------------------------------------------------+");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param connection Connection，与数据库的连接
      * @param code       String，要插入数据库中的文字编码类型
@@ -52,7 +74,7 @@ public class CharacterSetUtils {
         List<Pair<String, String>> list = null;
         try {
             list = getTableStructure(connection, tableName);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new SQLException();
         }
         StringBuilder tmp_sql = new StringBuilder("insert into " + tableName + " value(");
@@ -86,18 +108,32 @@ public class CharacterSetUtils {
                     preparedStatement.setNull(i, Types.INTEGER);
                 }
             }
-            preparedStatement.execute();
+            try {
+                preparedStatement.execute();
+            } catch (Exception e) {
+                throw new Exception("插入失败");
+            }
             System.out.println("插入指定编码字段成功");
             System.out.print("对插入数据库中数据查询结果");
             String result_sql = "";
-            if (pair1!= null && pair2!= null) {
-                result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
-            } else {
-                result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "'";
+            try {
+                if (pair1 != null && pair2 != null) {
+                    result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
+                } else {
+                    result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "'";
+                }
+                if (!query(result_sql, connection).next()) {
+                    throw new Exception();
+                }
+                printResultSet(query(result_sql, connection), list.size());
+            } catch (Exception e) {
+                System.err.println("查询失败，数据库字符编码或该表格字符集编码可能与本次插入数据所使用编码不符，现输出该表格所有内容：");
+                Statement statement = connection.createStatement();
+                printResultSet(statement.executeQuery("select * from " + tableName),SqlUtils.getTableStructure(connection,tableName).size());
+                throw new Exception();
             }
-            printResultSet(query(result_sql, connection), list.size());
         } catch (Exception e) {
-            System.err.println("Exception: " + e.getMessage());
+
         }
     }
 }

@@ -54,10 +54,11 @@ public class Mode2 {
                         System.out.println();
                         switch (sqlInput) {
                             case "1":
-                                CharacterSetUtils.getCharacterSetInCluster(connection);
                                 System.out.println("请输入要进行插入指定编码语句测试的表名：");
                                 String tableName = scanner.nextLine();
                                 System.out.println();
+                                CharacterSetUtils.getCharacterSetInCluster(connection);
+                                CharacterSetUtils.getCharacterSetInTable(connection,tableName);
                                 System.out.println("请输入要进行插入指定语句测试所使用的编码：");
                                 String code = scanner.nextLine();
                                 System.out.println();
@@ -102,7 +103,7 @@ public class Mode2 {
                     if (e instanceof LoadJarException) {
                         continue;
                     }
-                    System.err.println("连接出现异常，Mode5测试结束，请检查登录配置");
+                    System.err.println("连接出现异常，Mode2测试结束，请检查登录配置");
                     e.printStackTrace();
                     scanner.close();
                     break label1;
