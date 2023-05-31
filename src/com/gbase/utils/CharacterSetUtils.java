@@ -91,23 +91,16 @@ public class CharacterSetUtils {
             }
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(tmp_sql.toString())) {
-            Pair<String, String> pair1 = null;
-            Pair<String, String> pair2 = null;
             int pairNum = 1;
             for (int i = 1; i <= list.size(); i++) {
-                if (list.get(i - 1).getValue().equals("VARCHAR")) {
+                if (list.get(i - 1).getValue().toLowerCase().contains("varchar")) {
                     String columnName = list.get(i - 1).getKey();
                     String columnType = list.get(i - 1).getValue();
                     System.out.println("请输入列" + columnName + "(" + columnType + ")" + "所要插入的值：");
                     Scanner scanner = new Scanner(System.in);
                     String content = scanner.nextLine();
+                    System.out.println();
                     preparedStatement.setBytes(i, content.getBytes(code));
-                    if (pairNum == 1) {
-                        pair1 = new Pair<>(columnName, content);
-                    }
-                    if (pairNum == 2) {
-                        pair2 = new Pair<>(columnName, content);
-                    }
                     pairNum++;
                 } else {
                     preparedStatement.setNull(i, Types.INTEGER);
@@ -115,30 +108,35 @@ public class CharacterSetUtils {
             }
             try {
                 preparedStatement.execute();
+                System.out.println("插入指定编码字段成功");
+                preparedStatement.close();
             } catch (Exception e) {
-                throw new Exception("插入失败");
+                System.out.println("插入失败，所选的编码可能出错，请检查数据库及表格的编码配置");
+                e.printStackTrace();
+                preparedStatement.close();
             }
-            System.out.println("插入指定编码字段成功");
-            System.out.print("对插入数据库中数据");
-            String result_sql = "";
+            String resultSql = "select * from " + tableName ;
             try {
-                if (pair1 != null && pair2 != null) {
-                    result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "' and " + pair2.getKey() + "='" + pair2.getValue() + "'";
-                } else {
-                    result_sql = "select * from " + tableName + " where " + pair1.getKey() + "='" + pair1.getValue() + "'";
+                ResultSet resultSet = query(resultSql, connection);
+                while (resultSet.next()) {
+                    if (resultSet.isLast()) {
+                        System.out.println("数据库中最后一条数据查询结果如下：");
+                        for (int i = 1; i <= list.size(); i++) {
+                            if (i != list.size()) {
+                                System.out.print(resultSet.getString(i) + "-----");
+                            } else {
+                                System.out.println(resultSet.getString(i));
+                            }
+                        }
+                        System.out.println();
+                    }
                 }
-                if (!query(result_sql, connection).next()) {
-                    throw new Exception();
-                }
-                printResultSet(query(result_sql, connection), list.size());
             } catch (Exception e) {
-                System.err.println("查询失败，数据库字符编码或该表格字符集编码可能与本次插入数据所使用编码不符，现输出该表格所有内容：");
-                Statement statement = connection.createStatement();
-                printResultSet(statement.executeQuery("select * from " + tableName), SqlUtils.getTableStructure(connection, tableName).size());
-                throw new Exception();
+                System.err.println("查询失败");
+                e.printStackTrace();
             }
         } catch (Exception e) {
-
+            System.err.println("字符集测试存在异常");
         }
     }
 }
