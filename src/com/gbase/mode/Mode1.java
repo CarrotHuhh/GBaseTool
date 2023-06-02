@@ -16,7 +16,7 @@ public class Mode1 {
     private ConnectionUtils connectionUtils;
 
     public Mode1() {
-        System.out.println("---------------------------Mode2---------------------------");
+        System.out.println("---------------------------Mode1---------------------------");
         System.out.println();
         connectionUtils = new ConnectionUtils();
         label1:
