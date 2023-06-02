@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="GbaseTool:jar">
-    <output-path>$PROJECT_DIR$/dist</output-path>
+    <output-path>$PROJECT_DIR$/GBaseToolJar</output-path>
     <root id="archive" name="GbaseTool.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />

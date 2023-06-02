@@ -33,7 +33,7 @@ public class JarUtils {
     }
 
     /**
-     * @param jarName 要进行加载的jar包文件名
+     * @param jarName String,要进行加载的jar包文件名
      * @Description: 本方法用于加载不在classpath中的某一个jar包
      */
     public static void loadJar(String jarName) throws LoadJarException {

@@ -53,11 +53,25 @@ public class ConnectionUtils {
             this.properties.load(reader);
             this.driver = JarUtils.getJDBCDriverContents().get(this.jarName.split("-")[0]);
             loadProperties();
-            System.out.println("-------------------配置文件读取完毕-------------------");
+            System.out.println("------------------配置文件读取完毕-------------------");
         } catch (IOException e) {
             System.err.println("读取配置文件失败");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @throws LoadJarException 抛出加载驱动包异常，暂不做处理，留待具体业务进行处理
+     * @Description: 本方法用于根据驱动类名加载配置文件中对应数据库的配置
+     */
+    public void loadProperties() throws LoadJarException {
+        if (this.driver.split("\\.").length >= 2) {
+            String driverName = this.driver.split("\\.")[1];
+            System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
+            this.url = this.properties.getProperty("url-" + driverName);
+            this.user = this.properties.getProperty("user-" + driverName);
+            this.password = this.properties.getProperty("password-" + driverName);
+        } else throw new LoadJarException();
     }
 
     /**
@@ -84,20 +98,6 @@ public class ConnectionUtils {
             System.err.println("创建连接失败");
             return null;
         }
-    }
-
-    /**
-     * @throws LoadJarException 抛出加载驱动包异常，暂不做处理，留待具体业务进行处理
-     * @Description: 本方法用于根据驱动类名加载配置文件中对应数据库的配置
-     */
-    public void loadProperties() throws LoadJarException {
-        if (this.driver.split("\\.").length >= 2) {
-            String driverName = this.driver.split("\\.")[1];
-            System.out.println("所选择驱动为" + driverName + "驱动，进行对应配置加载");
-            this.url = this.properties.getProperty("url-" + driverName);
-            this.user = this.properties.getProperty("user-" + driverName);
-            this.password = this.properties.getProperty("password-" + driverName);
-        } else throw new LoadJarException();
     }
 
     public String getUrl() {
